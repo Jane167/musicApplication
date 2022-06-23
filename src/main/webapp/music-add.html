@@ -189,7 +189,7 @@
             name: 'picFile',
             responseType: 'json',
             onSubmit: function (file, ext) {
-                if (ext && /^(jpg|png|bmp)$/.test(ext.toLowerCase())) {
+                if (ext && /^(jpg|png|bmp|mp3|pdf)$/.test(ext.toLowerCase())) {
                     this.setData({
                         'picName': file
                     });
