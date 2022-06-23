@@ -117,7 +117,7 @@
                                         <td class="text">
                                            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#exampleModal" data-musictype-id=${musictype.musictypeId}
                                     data-musictype-name=${musictype.musictypeName} data-musictype-depict=${musictype.musictypeDepict} >编辑</button>
-                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musictypeid=${musictype.musictypeId}>删除</button>
+                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musictype-id=${musictype.musictypeId}>删除</button>
                                         </td>
                                       </tr>
                                     `).appendTo($(".table tbody"))
@@ -156,14 +156,14 @@
                 $("#save-btn").click(function () {
                     that.save();
                 })
-                // 删除学生
+                // 删除类别
                 $("#del-btn").click(function () {
-                    let userId = $("#userId2").val();
-                    if (userId) {
+                    let musictypeId = $("#userId2").val();
+                    if (musictypeId) {
                         // 提交表单
                         $.ajax({
-                            type: 'post',// 提交方式 post
-                            url: '/SelectCourse2/student/delete?studentId='+userId,
+                            type: 'get',// 提交方式 post
+                            url: `/musicApp/musictype/delete/${musictypeId}`,
                             cache: false,// 不启用缓存
                             dataType: 'json',// 期望服务器响应的数据类型 json
                             success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
@@ -320,7 +320,7 @@
                     var musictypeId = button.data('musictype-id');
                     var modal = $(this)
                     // 绑定数据
-                    modal.find('.modal-body #userId2').val(userId);
+                    modal.find('.modal-body #userId2').val(musictypeId);
 
                 })
             }
@@ -423,7 +423,7 @@
                     style="border-left: 5px solid dodgerblue;padding-left: 10px;">温馨提示</h4>
             </div>
             <div class="modal-body">
-                确定删除当前学生？
+                确定删除当前音乐类别？
                 <input type="hidden" id="userId2">
             </div>
             <div class="modal-footer">

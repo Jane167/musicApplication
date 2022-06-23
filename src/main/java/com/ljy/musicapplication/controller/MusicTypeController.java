@@ -136,5 +136,37 @@ public class MusicTypeController {
         }
         return rtnInfo;
     }
+
     // 根据id删除音乐类别
+
+    /**
+     * 请求方式：GET
+     * 请求URL：/musicApp/musictype/delete/{musictypeId}
+     * 响应结果：JSON字符串
+     * @param musictypeId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "delete/{musictypeId}")
+    public RtnInfo delete(@PathVariable(value = "musictypeId", required = true) Integer musictypeId) throws Exception{
+        System.out.println("==========进入到了音乐类别删除方法==========" + musictypeId);
+        // 创建rtnInfo，封装响应到前端的信息。
+        RtnInfo rtnInfo  = new RtnInfo();
+
+        // 非空校验
+        if(StringUtils.isNullOrEmpty(musictypeId + "")){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐类别编号不能为空！");
+        }else{
+            // 访问数据库
+            if(musicTypeMapper.deleteMusicType2(musictypeId) > 0){
+                rtnInfo.setCode(1);
+                rtnInfo.setMsg("音乐类别删除成功！");
+            }else{
+                rtnInfo.setCode(0);
+                rtnInfo.setMsg("音乐类别删除失败！");
+            }
+        }
+        return rtnInfo;
+    }
 }
