@@ -209,7 +209,7 @@
             }
 
             /**
-             * 修改老师信息
+             * 修改音乐类别
              * @returns {boolean}
              */
             save() {
@@ -242,24 +242,15 @@
                     bootoast({
                         message: '类别描述不能为空！',
                         type: 'danger',
-                        position:'top',
-                        timeout:2
-                    });
-                    return false;
-                }
-                if (!grade || grade === '') {
-                    bootoast({
-                        message: '年级不能为空！',
-                        type: 'danger',
-                        position:'top',
-                        timeout:2
+                        position: 'top',
+                        timeout: 2
                     });
                     return false;
                 }
                 // 提交表单
                 $.ajax({
                     type: 'post',// 提交方式 post
-                    url: $("#myForm").attr("action"),// /SelectCourse/teacher/update
+                    url: $("#myForm").attr("action"),// /musicApp/musictype/update
                     cache: false,// 不启用缓存
                     data: `musictypeId=${musictypeId}&musictypeName=${musictypeName}&musictypeDepict=${musictypeDepict}`,
                     dataType: 'json',// 期望服务器响应的数据类型 json

@@ -108,7 +108,7 @@ public class MusicTypeController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "uodate", method = RequestMethod.POST)
+    @RequestMapping(value = "update", method = RequestMethod.POST)
     public RtnInfo update(MusicType musicType) throws Exception{
         System.out.println("======进入到修改音乐类别的方法：=====" + musicType);
         // 创建一个rtnInfo,封装返回给前端的信息
