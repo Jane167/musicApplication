@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <title>音乐后台管理系统</title>
+    <!-- 引入bootstrap.css -->
+    <link rel="stylesheet" href="./static/bootstrap-3.4.1/css/bootstrap.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .my-container {
+            height: 100%;
+            padding: 0;
+        }
+
+        .header {
+            width: 100%;
+            height: 95px;
+            /*overflow: hidden;*/
+            /*background-color: #fd70a1;*/
+            background-image: url("static/img/top_bg.png");
+            background-repeat: no-repeat;
+            /*  background-size: 100% 100%; */
+        }
+
+        .header .logo img {
+            height: 60px;
+            margin-top: 20px;
+        }
+
+        .user {
+            padding-top: 20px;
+            overflow: hidden;
+            padding-right: 20px;
+            text-align: right;
+        }
+
+        .user img {
+            margin: 0 20px;
+            width: 60px;
+        }
+
+        .body {
+            padding: 0;
+            width: 100%;
+            height: calc(100% - 120px);
+        }
+
+        .body .menu {
+            width: 180px;
+            height: 100%;
+            background-color: #333;
+            float: left;
+        }
+
+        .body .card {
+            width: calc(100% - 180px);
+            height: 100%;
+            float: left;
+        }
+
+        .iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <!-- 引入jquery.js-->
+    <script src="./static/bootstrap-3.4.1/js/jquery-3.6.0.min.js"></script>
+    <!-- 引入bootstrap.js-->
+    <script src="./static/bootstrap-3.4.1/js/bootstrap.js"></script>
+    <script>
+        $(function () {
+            $("#admin").text(sessionStorage.getItem("nickname"));
+        })
+
+        /**
+         * 退出登录
+         */
+        function logout() {
+            // 清理掉缓存
+            sessionStorage.clear();
+            // 跳转到登录界面
+            window.location.href = "login.html"
+        }
+    </script>
+</head>
+
+<body>
+<!-- 最外层是容器 -->
+<div class="container-fluid my-container">
+    <!-- header:头部 -->
+    <div class="header">
+        <div class="row">
+            <!-- logo -->
+            <div class="col-md-4 logo">
+                <img src="static/img/logo.png" alt="">
+            </div>
+            <!-- 登录信息 -->
+            <div class="col-md-offset-5 col-md-3 user">
+                <span style="color:#fff;" id="admin">管理员</span>
+                <img src="static/img/default-pic-small.png" alt="..." class="img-circle">
+                <button type="button" class="btn btn-danger" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+    </div>
+    <!-- body:内容 -->
+    <div class="body">
+        <!-- menu：菜单 -->
+        <div class="menu">
+            <!-- 引用Menu菜单组件 -->
+            <iframe class="iframe" src="static/menu/Menu.html"></iframe>
+        </div>
+        <!-- card：卡片 使用iframe，实现网页的嵌套，这个地方一定要有：id="card" -->
+        <div class="card">
+            <iframe class="iframe" src="wellcome.html" name="card" id="card"></iframe>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>

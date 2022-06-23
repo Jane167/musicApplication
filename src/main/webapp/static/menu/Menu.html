@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>左侧Menu菜单</title>
+    <link rel="stylesheet" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+</head>
+
+<body>
+<h3 class="title">菜单管理</h3>
+<ul id="accordion" class="accordion">
+
+</ul>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script>
+    $(function () {
+        // 根据角色，显示不一样的菜单
+        let role = 0;//sessionStorage.getItem("role");
+        console.log("-------------------", role);
+        if (role == 0) {// 管理员
+            $(`
+                    <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>类别管理<i class="iconfont icon-jiaoshi"></i>
+                         </div>
+                         <ul class="submenu">
+
+                           <li><a href="javascript:void(0)" onclick="forward('musictype-add.html')" target="card">添加类别</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('musictype-list(无分页).html')" target="card">类别列表</a></li>
+                         </ul>
+                    </li>
+                    <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>音乐管理<i class="iconfont icon-xuesheng"></i>
+                         </div>
+                         <ul class="submenu">
+
+                           <li><a href="javascript:void(0)" onclick="forward('student-add.html')" target="card">添加音乐</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('student-list.html')" target="card">音乐列表</a></li>
+                         </ul>
+                     </li>
+                     <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>上架管理<i class="iconfont icon-kecheng"></i>
+                         </div>
+                         <ul class="submenu">
+
+                           <li><a href="javascript:void(0)" onclick="forward('course-add.html')" target="card">已上架音乐</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('course-list.html')" target="card">未上架音乐</a></li>
+                         </ul>
+                     </li>
+                     <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>个人中心<i class="iconfont icon-username"></i>
+                         </div>
+                         <ul class="submenu">
+                           <li><a href="javascript:void(0)" onclick="forward('teacher-info.html')" target="card">个人信息</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('update-pwd.html')" target="card">修改密码</a></li>
+                         </ul>
+                     </li>
+                    `).appendTo($("#accordion"))
+
+        } else if (role == 1) {// 教师
+            $(`
+                    <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>教师管理111<i class="iconfont icon-jiaoshi"></i>
+                         </div>
+                         <ul class="submenu">
+
+                           <li><a href="javascript:void(0)" onclick="forward('07-案例：添加界面.html')" target="card">添加教师</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('teacher-list.html')" target="card">教师列表</a></li>
+                         </ul>
+                    </li>
+                    <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>学生管理<i class="iconfont icon-xuesheng"></i>
+                         </div>
+                         <ul class="submenu">
+
+                           <li><a href="javascript:void(0)" onclick="forward('04-案例：登录界面-02.html')" target="card">添加教师</a></li>
+                           <li><a href="#">教师列表</a></li>
+                         </ul>
+                     </li>
+                    `).appendTo($("#accordion"))
+        } else if (role == 2) {// 学生
+            $(`
+                    <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>课程管理<i class="iconfont icon-kecheng"></i>
+                         </div>
+                         <ul class="submenu">
+                           <li><a href="javascript:void(0)" onclick="forward('course-unselected-list.html')" target="card">未选课程</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('course-selected-list.html')" target="card">已选课程</a></li>
+                         </ul>
+                     </li>
+                     <li>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>个人中心<i class="iconfont icon-username"></i>
+                         </div>
+                         <ul class="submenu">
+                           <li><a href="javascript:void(0)" onclick="forward('student-info.html')" target="card">个人信息</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('update-pwd.html')" target="card">修改密码</a></li>
+                         </ul>
+                     </li>
+                    `).appendTo($("#accordion"))
+        }
+    })
+</script>
+<script src="js/index.js"></script>
+<script>
+    // 跳转界面
+    function forward(href) {
+        var frameid = parent.document.getElementById("card");
+        frameid.src = href;
+    }
+
+</script>
+</body>
+
+</html>

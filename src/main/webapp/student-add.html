@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <title>添加学生</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    main .myform {
+      width: 30%;
+      margin-left: 40px;
+    }
+
+    main p {
+      display: block;
+      width: 100%;
+      /* position: absolute;
+      bottom: 20px; */
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootstrap.css">
+  <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootoast.css">
+  <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+  <script src="static/bootstrap-3.4.1/js/jquery-3.6.0.min.js"></script>
+  <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+  <script src="static/bootstrap-3.4.1/js/bootstrap.js"></script>
+  <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
+</head>
+
+<body>
+<div class="container-fluid my-container">
+  <main>
+    <!-- 路径导航 -->
+    <ol class="breadcrumb" style="margin-top:5px;">
+      <li><a href="#">主页</a></li>
+      <li><a href="#">学生管理</a></li>
+      <li class="active">添加学生</li>
+    </ol>
+    <!-- 表单 -->
+    <div class="myform">
+      <form id="myForm" action="/SelectCourse2/student/add" method="post">
+        <!--        <div class="form-group">-->
+        <!--          <label for="username">学<span style="color:transparent;user-select: none;">隐藏</span>号：</label>-->
+        <!--          <input type="text" class="form-control" name="username" id="username" placeholder="请输入学号">-->
+        <!--        </div>-->
+        <div class="form-group">
+          <label for="nickname">姓<span style="color:transparent;user-select: none;">隐藏</span>名：</label>
+          <input type="text" class="form-control" name="nickname" id="nickname" placeholder="请输入姓名">
+        </div>
+        <div class="form-group">
+          <label for="nickname">性<span style="color:transparent;user-select: none;">隐藏</span>别：</label>
+          <div class="radio">
+            <label>
+              <input type="radio" name="gender" id="optionsRadios1" value="男" checked>
+              男
+            </label>
+            &nbsp;&nbsp;
+            <label>
+              <input type="radio" name="gender" id="optionsRadios2" value="女">
+              女
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="phone">电<span style="color:transparent;user-select: none;">隐藏</span>话：</label>
+          <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话">
+        </div>
+        <div class="form-group">
+          <label for="specialty">专<span style="color:transparent;user-select: none;">隐藏</span>业：</label>
+          <input type="text" class="form-control" name="specialty" id="specialty" placeholder="请输入专业">
+        </div>
+        <div class="form-group">
+          <label for="grade">年<span style="color:transparent;user-select: none;">隐藏</span>级：</label>
+          <input type="text" class="form-control" name="grade" id="grade" placeholder="请输入年级">
+        </div>
+        <button type="button" class="btn btn-success" onclick="save()" id="save-btn">保存</button>
+      </form>
+
+    </div>
+
+  </main>
+  <!-- 尾部 -->
+  <div class="footer">技术支持:西安粤嵌信息科技有限公司</div>
+</div>
+<script>
+  // 提交表单的方法
+  function save() {
+    // 非空校验
+    var nickname = $("#nickname").val();
+    var gender = $("input[name=gender]:checked").val();
+    var phone = $("#phone").val();
+    var specialty = $("#specialty").val();
+    var grade = $("#grade").val();
+    console.log(nickname, gender, phone, specialty,grade);
+    // 进行非空校验
+
+    if (!nickname|| nickname === '') {
+      bootoast({
+        message: '姓名不能为空',
+        type: 'danger',
+        position:'top',
+        timeout:2
+      });
+      return false;
+    }
+    if (!phone|| phone === '') {
+      bootoast({
+        message: '手机号不能为空',
+        type: 'danger',
+        position:'top',
+        timeout:2
+      });
+      return false;
+    }
+    if (!specialty|| specialty === '') {
+      bootoast({
+        message: '专业不能为空',
+        type: 'danger',
+        position:'top',
+        timeout:2
+      });
+      return false;
+    }
+    if (!grade|| grade === '') {
+      bootoast({
+        message: '年级不能为空',
+        type: 'danger',
+        position:'top',
+        timeout:2
+      });
+      return false;
+    }
+    // 提交表单
+    $.ajax({
+      type: 'post',// 提交方式 post
+      url: $("#myForm").attr("action"),// /SelectCourse2/student/add
+      cache: false,// 不启用缓存
+      data: `nickname=${nickname}&gender=${gender}&phone=${phone}&specialty=${specialty}&grade=${grade}`,
+      dataType: 'json',// 期望服务器响应的数据类型 json
+      success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
+        console.log(result);
+        clearData();
+        // 提示
+        bootoast({
+          message: result.msg,
+          type: 'success',
+          position:'top',
+          timeout:2
+        });
+      },
+      error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
+        // 提示
+        bootoast({
+          message: "服务器请求错误！",
+          type: 'danger',
+          position:'top',
+          timeout:2
+        });
+      }
+
+    })
+    return true;
+  }
+
+  /**
+   * 清空数据
+   */
+  function clearData(){
+    $("#myForm").empty();
+  }
+</script>
+</body>
+
+</html>

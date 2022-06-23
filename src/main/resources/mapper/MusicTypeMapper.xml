@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljy.musicapplication.mapper.MusicTypeMapper">
+    <!--添加音乐类别-->
+    <insert id="addMusicType" parameterType="MusicType">
+        insert into musictype(musictype_name, musictype_depict) value (#{musictypeName}, #{musictypeDepict})
+    </insert>
+    <!--查询所有商品类别（支持关键字，不支持分页）mabatis模糊查询-->
+    <select id="findMusicTypeAll" parameterType="string" resultType="MusicType">
+        select * from  musictype where musictype_name like concat("%", #{keywords}, "%") and del_flag = 1
+    </select>
+    <!--修改音乐类别-->
+    <update id="updateMusicType" parameterType="MusicType">
+        update musictype set musictype_name = #{musictypeName}, musictype_depict = #{musictypeDepict} where musictype_id = #{musictypeId}
+    </update>
+    <!--删除音乐类别（真删除）-->
+    <delete id="deleteMusicType1" parameterType="int">
+        delete from musictype where musictype_id = #{musictypeId}
+    </delete>
+    <!--删除音乐类别（假删除）-->
+    <update id="deleteMusicType2" parameterType="int">
+        update musictype set del_flag = 0 where musictype_id = #{musictype_id}
+    </update>
+</mapper>
