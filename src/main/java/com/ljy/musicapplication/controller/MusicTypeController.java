@@ -96,7 +96,45 @@ public class MusicTypeController {
 
         return rtnInfo;
     }
-    // 根据id修改音乐类别
 
+
+    /**
+     * 根据id修改音乐类别
+     * 请求方式：POST
+     * 请求URL：/musicApp/musictype/update
+     * 请求参数：表单
+     * 响应结果：JSON字符串
+     * @param musicType
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "uodate", method = RequestMethod.POST)
+    public RtnInfo update(MusicType musicType) throws Exception{
+        System.out.println("======进入到修改音乐类别的方法：=====" + musicType);
+        // 创建一个rtnInfo,封装返回给前端的信息
+        RtnInfo rtnInfo = new RtnInfo();
+
+        // 非空校验
+        if(StringUtils.isNullOrEmpty(musicType.getMusictypeId() + "")){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐类别编号不能为空！");
+        }else if(StringUtils.isNullOrEmpty(musicType.getMusictypeName())){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐类别名称不能为空！");
+        }else if(StringUtils.isNullOrEmpty(musicType.getMusictypeDepict())){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐类别描述不能为空！");
+        }else{
+            // 访问数据库
+            if(musicTypeMapper.updateMusicType(musicType) > 0){
+                rtnInfo.setCode(1);
+                rtnInfo.setMsg("音乐类别修改成功！");
+            }else {
+                rtnInfo.setCode(0);
+                rtnInfo.setMsg("音乐类别修改失败！");
+            }
+        }
+        return rtnInfo;
+    }
     // 根据id删除音乐类别
 }
