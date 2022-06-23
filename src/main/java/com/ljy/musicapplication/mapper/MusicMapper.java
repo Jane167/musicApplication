@@ -38,9 +38,9 @@ public interface MusicMapper {
     public int deleteMusic1(Integer musicId);
 
     /**
-     * 删除音乐类别 （假删除）
+     * 删除音乐 （假删除）
      * @param musicId
      * @return
      */
-    public int deleteMusic(Integer musicId);
+    public int deleteMusic2(Integer musicId);
 }

@@ -137,7 +137,6 @@ public class MusicTypeController {
         return rtnInfo;
     }
 
-    // 根据id删除音乐类别
 
     /**
      * 请求方式：GET
