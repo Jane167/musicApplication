@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljy.musicapplication.mapper.MusicMapper">
+    <!--添加音乐-->
+    <insert id="addMusic" parameterType="Music">
+        insert into music(music_name, music_pic, singer, musictype_id, record_company, release_date, depict, price, status)
+        value (#{musicName}, #{musicPic}, #{singer}, #{musictypeId}, #{recordCompany}, #{releaseDate}, #{depict}, #{price}, #{status})
+    </insert>
+    <!--查询所有音乐（支持关键字，不支持分页）mabatis模糊查询-->
+    <select id="findMusicAll" parameterType="string" resultType="Music">
+        select * from  music where music_name like concat("%", #{keywords}, "%") and del_flag = 1
+    </select>
+    <!--修改音乐-->
+    <update id="updateMusic" parameterType="Music">
+        update musice set music_name = #{musicName},
+                          music_pic = #{musicPic},
+                          singer = #{singer},
+                          musictype_id = #{musictypeId},
+                          record_company = #{recordCompany},
+                          release_date = #{releaseDate},
+                          depict = #{depict},
+                          price = #{price},
+                          status = #{status}
+                          where music_id = #{musicId}
+    </update>
+    <!--删除音乐类别（真删除）-->
+    <delete id="deleteMusic1" parameterType="int">
+        delete from music where music_id = #{musicId}
+    </delete>
+    <!--删除音乐类别（假删除）-->
+    <update id="deleteMusic2" parameterType="int">
+        update music set del_flag = 0 where music_id = #{musicId}
+    </update>
+</mapper>

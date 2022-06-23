@@ -21,6 +21,6 @@
     </delete>
     <!--删除音乐类别（假删除）-->
     <update id="deleteMusicType2" parameterType="int">
-        update musictype set del_flag = 0 where musictype_id = #{musictype_id}
+        update musictype set del_flag = 0 where musictype_id = #{musictypeId}
     </update>
 </mapper>
