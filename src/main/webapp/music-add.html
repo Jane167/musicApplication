@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>添加音乐类别</title>
+    <title>添加音乐</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootstrap.css">
@@ -53,18 +53,18 @@
         <!-- 路径导航 -->
         <ol class="breadcrumb" style="margin-top:5px;">
             <li><a href="#">主页</a></li>
-            <li><a href="#">类别管理</a></li>
-            <li class="active">添加类别</li>
+            <li><a href="#">音乐管理</a></li>
+            <li class="active">添加音乐</li>
         </ol>
         <!-- 表单 -->
         <div class="myform">
             <form id="myForm" action="/musicApp/musictype/add" method="post">
                 <div class="form-group">
-                    <label for="musictypeName">类别名称：</label>
+                    <label for="musictypeName">音乐名称：</label>
                     <input type="text" class="form-control" name="musictypeName" id="musictypeName" placeholder="请输入类别名称">
                 </div>
                 <div class="form-group">
-                    <label for="musictypeDepict">类别描述：</label>
+                    <label for="musictypeDepict">封面图片：</label>
                     <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30" rows="10" placeholder="请输入类别描述"></textarea>
                 </div>
 

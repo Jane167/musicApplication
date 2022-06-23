@@ -1,261 +1,58 @@
 {
-  "id": "3304487",
-  "name": "hj1902",
+  "id": "3480770",
+  "name": "music",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
-  "description": "镐京学院Java1902",
+  "description": "",
   "glyphs": [
     {
-      "icon_id": "1118",
-      "name": "文件",
-      "font_class": "wenjian",
+      "icon_id": "1029",
+      "name": "音乐",
+      "font_class": "yinle",
       "unicode": "e600",
       "unicode_decimal": 58880
     },
     {
-      "icon_id": "1119",
-      "name": "编辑文件",
-      "font_class": "bianjiwenjian",
-      "unicode": "e601",
-      "unicode_decimal": 58881
+      "icon_id": "415456",
+      "name": "类别管理",
+      "font_class": "leibieguanli",
+      "unicode": "e640",
+      "unicode_decimal": 58944
     },
     {
-      "icon_id": "1121",
-      "name": "删除文件",
-      "font_class": "shanchuwenjian",
+      "icon_id": "1236928",
+      "name": "上架",
+      "font_class": "iconfontzhizuobiaozhunbduan31",
+      "unicode": "e6e5",
+      "unicode_decimal": 59109
+    },
+    {
+      "icon_id": "1279424",
+      "name": "个人中心",
+      "font_class": "gerenzhongxin",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "2380684",
+      "name": "音乐",
+      "font_class": "yinle1",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "6345954",
+      "name": "category",
+      "font_class": "category",
       "unicode": "e602",
       "unicode_decimal": 58882
     },
     {
-      "icon_id": "1123",
-      "name": "复制文件",
-      "font_class": "fuzhiwenjian",
-      "unicode": "e603",
-      "unicode_decimal": 58883
-    },
-    {
-      "icon_id": "1124",
-      "name": "搜索文件",
-      "font_class": "sousuowenjian",
-      "unicode": "e604",
-      "unicode_decimal": 58884
-    },
-    {
-      "icon_id": "1228",
-      "name": "首页",
-      "font_class": "shouye",
-      "unicode": "e605",
-      "unicode_decimal": 58885
-    },
-    {
-      "icon_id": "1261",
-      "name": "查找用户",
-      "font_class": "chazhaoyonghu",
-      "unicode": "e606",
-      "unicode_decimal": 58886
-    },
-    {
-      "icon_id": "1262",
-      "name": "添加用户",
-      "font_class": "tianjiayonghu",
-      "unicode": "e607",
-      "unicode_decimal": 58887
-    },
-    {
-      "icon_id": "1270",
-      "name": "错误",
-      "font_class": "cuowu",
-      "unicode": "e608",
-      "unicode_decimal": 58888
-    },
-    {
-      "icon_id": "1375",
-      "name": "订单",
-      "font_class": "dingdan",
-      "unicode": "e609",
-      "unicode_decimal": 58889
-    },
-    {
-      "icon_id": "5027",
-      "name": "手机",
-      "font_class": "shouji",
-      "unicode": "e60a",
-      "unicode_decimal": 58890
-    },
-    {
-      "icon_id": "7418",
-      "name": "返回",
-      "font_class": "fanhui",
-      "unicode": "e60b",
-      "unicode_decimal": 58891
-    },
-    {
-      "icon_id": "77818",
-      "name": "返回8",
-      "font_class": "fanhui8",
-      "unicode": "e60c",
-      "unicode_decimal": 58892
-    },
-    {
-      "icon_id": "77821",
-      "name": "返回5",
-      "font_class": "fanhui5",
-      "unicode": "e60d",
-      "unicode_decimal": 58893
-    },
-    {
-      "icon_id": "145719",
-      "name": "删除_填充",
-      "font_class": "shanchutianchong",
-      "unicode": "e68c",
-      "unicode_decimal": 59020
-    },
-    {
-      "icon_id": "439742",
-      "name": "2 系统",
-      "font_class": "2xitong",
-      "unicode": "e860",
-      "unicode_decimal": 59488
-    },
-    {
-      "icon_id": "680695",
-      "name": "确认2",
-      "font_class": "queren2",
-      "unicode": "e6f9",
-      "unicode_decimal": 59129
-    },
-    {
-      "icon_id": "887769",
-      "name": "编辑",
-      "font_class": "bianji",
-      "unicode": "e60e",
-      "unicode_decimal": 58894
-    },
-    {
-      "icon_id": "975382",
-      "name": "返回",
-      "font_class": "return",
-      "unicode": "e6ba",
-      "unicode_decimal": 59066
-    },
-    {
-      "icon_id": "1120961",
-      "name": "编辑",
-      "font_class": "bianji1",
-      "unicode": "e619",
-      "unicode_decimal": 58905
-    },
-    {
-      "icon_id": "3483789",
-      "name": "性别",
-      "font_class": "xingbie",
-      "unicode": "e673",
-      "unicode_decimal": 58995
-    },
-    {
-      "icon_id": "4880413",
-      "name": "删除",
-      "font_class": "shanchu",
-      "unicode": "e60f",
-      "unicode_decimal": 58895
-    },
-    {
-      "icon_id": "5743189",
-      "name": "撤销-填充",
-      "font_class": "chexiao-tianchong",
-      "unicode": "e81e",
-      "unicode_decimal": 59422
-    },
-    {
-      "icon_id": "7712190",
-      "name": "班级",
-      "font_class": "banji",
-      "unicode": "e71e",
-      "unicode_decimal": 59166
-    },
-    {
-      "icon_id": "7712212",
-      "name": "课程",
-      "font_class": "kecheng",
+      "icon_id": "22778735",
+      "name": "上架",
+      "font_class": "shangjia",
       "unicode": "e724",
       "unicode_decimal": 59172
-    },
-    {
-      "icon_id": "7712744",
-      "name": "username",
-      "font_class": "username",
-      "unicode": "e73f",
-      "unicode_decimal": 59199
-    },
-    {
-      "icon_id": "8156489",
-      "name": "教师",
-      "font_class": "jiaoshi",
-      "unicode": "e637",
-      "unicode_decimal": 58935
-    },
-    {
-      "icon_id": "8156558",
-      "name": "学生",
-      "font_class": "xuesheng",
-      "unicode": "e63a",
-      "unicode_decimal": 58938
-    },
-    {
-      "icon_id": "8802637",
-      "name": "信息",
-      "font_class": "xinxi",
-      "unicode": "e649",
-      "unicode_decimal": 58953
-    },
-    {
-      "icon_id": "8817897",
-      "name": "增加添加加号",
-      "font_class": "zengjiatianjiajiahao",
-      "unicode": "e62a",
-      "unicode_decimal": 58922
-    },
-    {
-      "icon_id": "11219362",
-      "name": "password",
-      "font_class": "password",
-      "unicode": "e610",
-      "unicode_decimal": 58896
-    },
-    {
-      "icon_id": "12593001",
-      "name": "学校",
-      "font_class": "xuexiao",
-      "unicode": "e6eb",
-      "unicode_decimal": 59115
-    },
-    {
-      "icon_id": "14197448",
-      "name": "班级成绩-01",
-      "font_class": "banjichengji-01",
-      "unicode": "e63b",
-      "unicode_decimal": 58939
-    },
-    {
-      "icon_id": "16479818",
-      "name": "成绩",
-      "font_class": "chengji",
-      "unicode": "e699",
-      "unicode_decimal": 59033
-    },
-    {
-      "icon_id": "18443311",
-      "name": "信息",
-      "font_class": "xinxi1",
-      "unicode": "e611",
-      "unicode_decimal": 58897
-    },
-    {
-      "icon_id": "27253672",
-      "name": "验证码",
-      "font_class": "yanzhengma",
-      "unicode": "e613",
-      "unicode_decimal": 58899
     }
   ]
 }

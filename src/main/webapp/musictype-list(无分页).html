@@ -18,7 +18,27 @@
         .my-container {
             height: 100%;
         }
-
+        .panel-body{
+            height: 400px;
+            overflow: auto;
+        }
+        .panel-body::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            width: 5px;  /*高宽分别对应横竖滚动条的尺寸*/
+            height: 1px;
+        }
+        .panel-body::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 10px;
+            box-shadow: inset 0 0 5px rgb(255, 255, 255);
+            background: #868686;
+        }
+        .panel-body::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background: #ededed;
+        }
         .table .text {
             /* padding-top: 10px !important; */
         }
@@ -95,9 +115,9 @@
                                         <td class="text">${musictype.musictypeDepict}</td>
 
                                         <td class="text">
-                                           <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-musictypeid=${musictype.musictypeId}
+                                           <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#exampleModal" data-musictypeid=${musictype.musictypeId}
                                     data-musictypename=${musictype.musictypeName} data-musictypedepict=${musictype.musictypeDepict} >编辑</button>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musictypeid=${musictype.musictypeId}>删除</button>
+                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musictypeid=${musictype.musictypeId}>删除</button>
                                         </td>
                                       </tr>
                                     `).appendTo($(".table tbody"))
@@ -331,8 +351,8 @@
     <!-- 页头 -->
     <ol class="breadcrumb" style="margin-top:5px;">
         <li><a href="#">主页</a></li>
-        <li><a href="#">列表管理</a></li>
-        <li class="active">列表列表</li>
+        <li><a href="#">类别管理</a></li>
+        <li class="active">类别列表</li>
     </ol>
     <!-- 检索框 -->
     <form class="form-inline">
