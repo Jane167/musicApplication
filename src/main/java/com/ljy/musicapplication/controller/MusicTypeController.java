@@ -8,6 +8,7 @@ import com.ljy.musicapplication.bean.RtnInfo;
 import com.ljy.musicapplication.mapper.MusicTypeMapper;
 import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,7 +75,7 @@ public class MusicTypeController {
     @RequestMapping(value = "findAll/{musictypeName}/{currentPage}", method = RequestMethod.GET)
     public RtnInfo findAll(@PathVariable(value = "musictypeName", required = true)String musictypeName,
                             @PathVariable(value ="currentPage", required = false)Integer currentPage) throws Exception{
-        System.out.println("-----进入到了音乐类别列表查询-----"+ musictypeName);
+        System.out.println("-----进入到了音乐类别列表查询-----"+ musictypeName + currentPage);
 
         // 创建rtnInfo，封装响应到前端的信息
         RtnInfo rtnInfo = new RtnInfo();
@@ -89,18 +90,18 @@ public class MusicTypeController {
         }
 
         // 1.访问数据库之前,设置分页条件，pagesize每页显示的条数，pageNum=当前是第几页
-        PageHelper.startPage(1, 5);
+        PageHelper.startPage(currentPage, 5);
 
 
         // 2.访问数据库
         List<MusicType> list = musicTypeMapper.findMusicTypeAll(musictypeName);
         // 3.访问数据库之后，
-        PageInfo<MusicType> lists = new PageInfo<>(list);
+        PageInfo<MusicType> lists = new PageInfo<>(list, 5);
         if(list != null){
             // 封装信息到前端
             rtnInfo.setCode(1);
             rtnInfo.setMsg("音乐类别列表信息获取成功！");
-            rtnInfo.setResult(list);
+            rtnInfo.setResult(lists);
         }else{
             // 封装信息到前端
             rtnInfo.setCode(0);
