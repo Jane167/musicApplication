@@ -56,15 +56,15 @@
         function initData(){
             // 获取登录保存的用户信息
             let user = sessionStorage.getItem("user");
-            console.log("-------------教师信息：",user)
+            console.log("-------------个人信息：",user)
             if(user){
                 user = JSON.parse(user);
                 $("#userId").val(user.userId)
-                $("#username").val(user.username)
-                $("#nickname").val(user.nickname)
-                $(`input[name=gender][value=${user.gender}]`).attr("checked",true)// 绑定单选按钮
                 $("#phone").val(user.phone)
-                $(`#rank option[value=${user.rank}]`).attr("selected", true);// 绑定下拉框
+                $("#nickName").val(user.nickName)
+                $(`input[name=sex][value=${user.sex}]`).attr("checked",true)// 绑定单选按钮
+                $("#address").val(user.address)
+
 
 
             }
@@ -89,12 +89,12 @@
                     <input type="hidden" class="form-control" name="userId" id="userId">
                 </div>
                 <div class="form-group">
-                    <label for="username">工<span style="color:transparent;user-select: none;">隐藏</span>号：</label>
-                    <input type="text" class="form-control" name="username" id="username" placeholder="请输入姓名" readonly>
+                    <label for="phone">电<span style="color:transparent;user-select: none;">隐藏</span>话：</label>
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="nickname">姓<span style="color:transparent;user-select: none;">隐藏</span>名：</label>
-                    <input type="text" class="form-control" name="nickname" id="nickname" placeholder="请输入姓名">
+                    <label for="nickName">昵<span style="color:transparent;user-select: none;">隐藏</span>称：</label>
+                    <input type="text" class="form-control" name="nickName" id="nickName" placeholder="请输入昵称">
                 </div>
                 <div class="form-group">
                     <label for="nickname">性<span style="color:transparent;user-select: none;">隐藏</span>别：</label>
@@ -110,10 +110,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="phone">电<span style="color:transparent;user-select: none;">隐藏</span>话：</label>
-                    <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话">
-                </div>
+
                 <div class="form-group">
                     <label for="rank">职<span style="color:transparent;user-select: none;">隐藏</span>称：</label>
                     <select class="form-control" id="rank" readonly>

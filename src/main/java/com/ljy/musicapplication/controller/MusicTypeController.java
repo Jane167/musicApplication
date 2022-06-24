@@ -1,6 +1,8 @@
 package com.ljy.musicapplication.controller;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ljy.musicapplication.bean.MusicType;
 import com.ljy.musicapplication.bean.RtnInfo;
 import com.ljy.musicapplication.mapper.MusicTypeMapper;
@@ -69,8 +71,9 @@ public class MusicTypeController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "findAll/{musictypeName}", method = RequestMethod.GET)
-    public RtnInfo findAll(@PathVariable(value = "musictypeName", required = true)String musictypeName) throws Exception{
+    @RequestMapping(value = "findAll/{musictypeName}/{currentPage}", method = RequestMethod.GET)
+    public RtnInfo findAll(@PathVariable(value = "musictypeName", required = true)String musictypeName,
+                            @PathVariable(value ="currentPage", required = false)Integer currentPage) throws Exception{
         System.out.println("-----进入到了音乐类别列表查询-----"+ musictypeName);
 
         // 创建rtnInfo，封装响应到前端的信息
@@ -80,8 +83,19 @@ public class MusicTypeController {
         if(StringUtils.isNullOrEmpty(musictypeName) || musictypeName.equals("''")){
             musictypeName = "";
         }
-        // 访问数据库
+        // 非空校验
+        if(currentPage == null){
+            currentPage = 1; // 如果前端每页获取到传递的currentPage，默认为1
+        }
+
+        // 1.访问数据库之前,设置分页条件，pagesize每页显示的条数，pageNum=当前是第几页
+        PageHelper.startPage(1, 5);
+
+
+        // 2.访问数据库
         List<MusicType> list = musicTypeMapper.findMusicTypeAll(musictypeName);
+        // 3.访问数据库之后，
+        PageInfo<MusicType> lists = new PageInfo<>(list);
         if(list != null){
             // 封装信息到前端
             rtnInfo.setCode(1);
