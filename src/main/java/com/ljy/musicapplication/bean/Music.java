@@ -8,7 +8,7 @@ public class Music {
     private String musicName;      // 音乐名称
     private String musicPic;       // 封面图片
     private String singer;         // 歌手
-    private int musictypeId;       // 类别编号
+    private MusicType musicType;   // 类别编号,存在关联关系
     private String recordCompany;  // 唱片公司
     private String releaseDate;    // 发行时间
     private String depict;         // 描述
@@ -47,12 +47,12 @@ public class Music {
         this.singer = singer;
     }
 
-    public int getMusictypeId() {
-        return musictypeId;
+    public MusicType getMusicType() {
+        return musicType;
     }
 
-    public void setMusictypeId(int musictypeId) {
-        this.musictypeId = musictypeId;
+    public void setMusicType(MusicType musicType) {
+        this.musicType = musicType;
     }
 
     public String getRecordCompany() {
@@ -102,7 +102,7 @@ public class Music {
                 ", musicName='" + musicName + '\'' +
                 ", musicPic='" + musicPic + '\'' +
                 ", singer='" + singer + '\'' +
-                ", musictypeId=" + musictypeId +
+                ", musicType=" + musicType +
                 ", recordCompany='" + recordCompany + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", depict='" + depict + '\'' +
