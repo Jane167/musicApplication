@@ -3,14 +3,39 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ljy.musicapplication.mapper.MusicMapper">
+    <!-- 定义一个resultMap，封装查询回来的数据 -->
+    <resultMap id="resultMusicMap" type="Music">
+        <!--建立music表字段与Music实体类属性之间的映射关系-->
+        <!--左边是表字段，右边是实体类的属性-->
+        <id column="music_id" property="musicId"></id>
+        <result column="music_name" property="musicName"></result>
+        <result column="music_pic" property="musicPic"></result>
+        <result column="singer" property="singer"></result>
+        <result column="record_company" property="recordCompany"></result>
+        <result column="release_date" property="releaseDate"></result>
+        <result column="depict" property="depict"></result>
+        <result column="price" property="price"></result>
+        <result column="status" property="status"></result>
+        <!--关联MusicType-->
+        <association property="musicType" javaType="MusicType">
+            <id column="musictype_id" property="musictypeId"></id>
+            <result column="musictype_name" property="musictypeName"></result>
+            <result column="musictype_depict" property="musictypeDepict"></result>
+        </association>
+    </resultMap>
     <!--添加音乐-->
     <insert id="addMusic" parameterType="Music">
         insert into music(music_name, music_pic, singer, musictype_id, record_company, release_date, depict, price)
         value (#{musicName}, #{musicPic}, #{singer}, #{musicType.musictypeId}, #{recordCompany}, #{releaseDate}, #{depict}, #{price})
     </insert>
     <!--查询所有音乐（支持关键字，不支持分页）mabatis模糊查询-->
-    <select id="findMusicAll" parameterType="string" resultType="Music">
-        select * from  music where music_name like concat("%", #{keywords}, "%") and del_flag = 1
+    <select id="findMusicAll" parameterType="string" resultMap ="resultMusicMap">
+        select * from  music m, musictype mt
+        where m.musictype_id = mt.musictype_id
+        and m.del_flag = 1
+        and (m.music_name like concat("%", #{keywords}, "%")
+        || mt.musictype_name like concat("%", #{keywords}, "%")
+        || m.singer like concat("%", #{keywords}, "%") )
     </select>
     <!--修改音乐-->
     <update id="updateMusic" parameterType="Music">

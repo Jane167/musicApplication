@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 /**
  * 针对Music的单元测试
  */
@@ -43,4 +45,15 @@ public class MusicTest {
             System.out.println("音乐添加失败！");
         }
     }
+
+    /**
+     * 测试查询音乐
+     */
+    @Test
+    public void testFindMusicAll(){
+        List<Music> list = musicMapper.findMusicAll("");
+        System.out.println(list);
+
+    }
+
 }
