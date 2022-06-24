@@ -154,7 +154,7 @@
                                     }
                                     // 下一页
                                     $(`<li>
-                                           <a href="javascript: void(0)" rel="$(res.result.hasNextPage?res.result.nextPage:pages)" aria-label="Next" onclick="changePage(this)">
+                                           <a href="javascript: void(0)" rel="$(res.result.hasNextPage?res.result.nextPage:res.result.pages)" aria-label="Next" onclick="changePage(this)">
                                                  <span aria-hidden="true">&raquo;</span>
                                            </a>
                                         </li>`).appendTo($(".pagination"))
