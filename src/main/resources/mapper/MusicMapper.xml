@@ -5,8 +5,8 @@
 <mapper namespace="com.ljy.musicapplication.mapper.MusicMapper">
     <!--添加音乐-->
     <insert id="addMusic" parameterType="Music">
-        insert into music(music_name, music_pic, singer, musictype_id, record_company, release_date, depict, price, status)
-        value (#{musicName}, #{musicPic}, #{singer}, #{musictypeId}, #{recordCompany}, #{releaseDate}, #{depict}, #{price}, #{status})
+        insert into music(music_name, music_pic, singer, musictype_id, record_company, release_date, depict, price)
+        value (#{musicName}, #{musicPic}, #{singer}, #{musicType.musictypeId}, #{recordCompany}, #{releaseDate}, #{depict}, #{price})
     </insert>
     <!--查询所有音乐（支持关键字，不支持分页）mabatis模糊查询-->
     <select id="findMusicAll" parameterType="string" resultType="Music">
@@ -17,7 +17,7 @@
         update musice set music_name = #{musicName},
                           music_pic = #{musicPic},
                           singer = #{singer},
-                          musictype_id = #{musictypeId},
+                          musictype_id = #{musicType.musictypeId},
                           record_company = #{recordCompany},
                           release_date = #{releaseDate},
                           depict = #{depict},

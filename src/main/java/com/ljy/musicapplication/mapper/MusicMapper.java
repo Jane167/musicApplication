@@ -1,10 +1,6 @@
 package com.ljy.musicapplication.mapper;
-
-
 import com.ljy.musicapplication.bean.Music;
-import com.ljy.musicapplication.bean.MusicType;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 // 对music表的dao操作：增删改查
