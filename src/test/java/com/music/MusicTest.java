@@ -55,5 +55,47 @@ public class MusicTest {
         System.out.println(list);
 
     }
+    /**
+     * 测试修改音乐
+     */
+    @Test
+    public void testUpdateMusic(){
+        MusicType musicType = new MusicType();
+        musicType.setMusictypeId(4);
+        Music music = new Music();
+        music.setMusicId(1);
+        music.setRecordCompany("音乐工作室");
+        music.setPrice(9.9);
+        if(musicMapper.updateMusic(music) > 0){
+            System.out.println("音乐类别修改成功！");
+        }else{
+            System.out.println("音乐类别修改失败！");
+        }
+    }
 
+    /**
+     * 测试删除音乐
+     * 真删除
+     */
+    @Test
+    public void testDeleteMusic1(){
+        if(musicMapper.deleteMusic1(1)>0){
+            System.out.println("删除成功！");
+        }else{
+            System.out.println("删除失败！");
+        }
+    }
+
+    /**
+     * 测试删除音乐
+     * 假删除
+     */
+    @Test
+    public void testDeleteMusic2(){
+        if(musicMapper.deleteMusic2(2)>0){
+            System.out.println("删除成功！");
+        }else{
+            System.out.println("删除失败！");
+        }
+    }
 }

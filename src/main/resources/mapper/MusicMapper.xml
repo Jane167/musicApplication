@@ -47,7 +47,6 @@
                           release_date = #{releaseDate},
                           depict = #{depict},
                           price = #{price},
-                          status = #{status}
                           where music_id = #{musicId}
     </update>
     <!--删除音乐类别（真删除）-->
