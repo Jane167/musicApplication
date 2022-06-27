@@ -1,6 +1,7 @@
 package com.ljy.musicapplication.controller;
 
 
+import com.ljy.musicapplication.bean.MusicType;
 import com.ljy.musicapplication.bean.RtnInfo;
 import com.ljy.musicapplication.bean.Users;
 import com.ljy.musicapplication.bean.UsersVo;
@@ -101,4 +102,51 @@ public class UsersController {
 
         return rtnInfo;  // springboot会自动转化为json字符串响应到前端
     }
+
+
+    /**
+     * 根据id修改音乐类别
+     * 请求方式：POST
+     * 请求URL：/musicApp/user/updateUsers
+     * 请求参数：表单
+     * 响应结果：JSON字符串
+     * @param users
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "updateUsers", method = RequestMethod.POST)
+    public RtnInfo updateUsers(Users users) throws Exception{
+        System.out.println("======进入到修改个人信息的方法：=====" +users);
+        // 创建一个rtnInfo,封装返回给前端的信息
+        RtnInfo rtnInfo = new RtnInfo();
+
+        // 非空校验
+        if(StringUtils.isNullOrEmpty(users.getUserId() + "")){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("用户编号不能为空！");
+        }else if(StringUtils.isNullOrEmpty(users.getPhone())){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("手机号码不能为空！");
+        }else if(StringUtils.isNullOrEmpty(users.getNickname())){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("用户昵称不能为空！");
+        }else if(StringUtils.isNullOrEmpty(users.getSex())){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("性别不能为空！");
+        }else if(StringUtils.isNullOrEmpty(users.getAddress())){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("地址不能为空！");
+        }else{
+            // 访问数据库
+            if(usersMapper.updateUsers(users) > 0){
+                rtnInfo.setCode(1);
+                rtnInfo.setMsg("个人信息修改成功！");
+            }else {
+                rtnInfo.setCode(0);
+                rtnInfo.setMsg("个人信息修改失败！");
+            }
+        }
+        return rtnInfo;
+    }
+
 }

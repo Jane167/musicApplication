@@ -41,10 +41,8 @@ public class UserTest {
     public void testUpdateUsers(){
         Users users = new Users();
         users.setUserId(1);
-        users.setAddress("陕西省渭南市临渭区");
-        users.setPhone("17612937572");
-        users.setSex("女");
-        users.setNickname("卑微女大学生！");
+        users.setAddress("陕西省渭南市临渭区xx街道");
+        users.setNickname("别卷我！");
         if(usersMapper.updateUsers(users) > 0){
             System.out.println("个人信息修改成功！");
         }else{

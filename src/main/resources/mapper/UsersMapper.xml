@@ -12,11 +12,36 @@
           and del_flag = 1
     </select>
     <!--修改个人信息-->
+<!--    <update id="updateUsers" parameterType="Users">-->
+<!--        update users set phone = #{phone},-->
+<!--            nickname = #{nickname},-->
+<!--            sex = #{sex},-->
+<!--            address=#{address}-->
+<!--            where user_id = #{userId}-->
+<!--    </update>-->
     <update id="updateUsers" parameterType="Users">
-        update users set phone = #{phone},
-            nickname = #{nickname},
-            sex = #{sex},
-            address=#{address}
-            where user_id = #{userId}
+        update users
+        <set>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="sex != null and sex!=''">
+                sex = #{sex},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="role != null and role != ''">
+                role = #{role},
+            </if>
+
+        </set>
+        where user_id = #{userId}
     </update>
 </mapper>
