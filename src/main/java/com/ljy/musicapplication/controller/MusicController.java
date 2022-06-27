@@ -51,7 +51,7 @@ public class MusicController {
         } else if(StringUtils.isNullOrEmpty(music.getDepict())){
             rtnInfo.setCode(-1);
             rtnInfo.setMsg("音乐描述不能为空！");
-        } else if(music.getPrice() != 0.00){
+        } else if(music.getPrice() <= 0){
             rtnInfo.setCode(-1);
             rtnInfo.setMsg("单价不能为空！");
         }else{

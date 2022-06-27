@@ -112,6 +112,29 @@ public class MusicTypeController {
         return rtnInfo;
     }
 
+    @RequestMapping(value = "queryList", method = RequestMethod.GET)
+    public RtnInfo queryList() throws Exception{
+
+        // 创建rtnInfo，封装响应到前端的信息
+        RtnInfo rtnInfo = new RtnInfo();
+
+        // 2.访问数据库
+        List<MusicType> list = musicTypeMapper.findMusicTypeAll("");
+        // 3.访问数据库之后，
+        if(list != null){
+            // 封装信息到前端
+            rtnInfo.setCode(1);
+            rtnInfo.setMsg("音乐类别列表信息获取成功！");
+            rtnInfo.setResult(list);
+        }else{
+            // 封装信息到前端
+            rtnInfo.setCode(0);
+            rtnInfo.setMsg("音乐类别列表信息获取失败！");
+        }
+
+
+        return rtnInfo;
+    }
 
     /**
      * 根据id修改音乐类别

@@ -86,15 +86,17 @@
         </ol>
         <!-- 表单 -->
         <div class="myform">
-            <form id="myForm" action="/musicApp/musictype/add" method="post">
+            <form id="myForm" action="/musicApp/music/add" method="post">
                 <div class="form-group">
-                    <label for="musictypeName">音乐名称：</label>
-                    <input type="text" class="form-control" name="musictypeName" id="musictypeName" placeholder="请输入类别名称">
+                    <label for="musicName">音乐名称：</label>
+                    <input type="text" class="form-control" name="musicName" id="musicName" placeholder="请输入音乐名称">
                 </div>
-
                 <div class="form-group">
-                    <label for="musictypeDepict">封面图片：</label>
-                    <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30" rows="10" placeholder="请输入类别描述"></textarea>
+                    <label for="musicPic">封面图片：</label>
+                    <div>
+                        <img src="./static/img/default-pic.png" class="img-thumbnail" alt="" style="height: 120px;position: relative;left: 0px;" id="viewImg" />
+                        <button type="button" class="btn btn-primary btn-xs" id="addLabProdPic" style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择图片</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="singer">歌手：</label>
@@ -102,7 +104,9 @@
                 </div>
                 <div class="form-group">
                     <label for="musictypeId">音乐类别：</label>
-                    <input type="text" class="form-control" name="musictypeId" id="musictypeId" placeholder="请选择类别名称">
+                    <select class="form-control" id="musictypeId">
+
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="recordCompany">唱片公司：</label>
@@ -110,15 +114,24 @@
                 </div>
                 <div class="form-group">
                     <label for="releaseDate">发行日期：</label>
-                    <input type="text" class="form-control" name="releaseDate" id="releaseDate" placeholder="请输入发行日期：">
+                    <div class="input-group date" id="datetimepicker1">
+                        <input type="text" class="form-control" id="releaseDate" placeholder="releaseDate">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="depict">音乐描述：</label>
-                    <textarea name="depict" class="form-control" id="depict" cols="30" rows="10" placeholder="请输入音乐描述："></textarea>
+                    <textarea name="depict" class="form-control" id="depict" cols="30" rows="5" placeholder="请输入音乐描述："></textarea>
                 </div>
                 <div class="form-group">
                     <label for="price">单价：</label>
-                    <input type="text" class="form-control" name="price" id="price" placeholder="请输入单价：">
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input type="text" class="form-control" id="price" placeholder="请输入价格">
+                        <div class="input-group-addon">.00</div>
+                    </div>
                 </div>
                 <button type="button" class="btn btn-success" onclick="save()">保存</button>
             </form>
@@ -128,54 +141,166 @@
     <!-- 尾部 -->
     <div class="footer">技术支持:睡不醒的前端</div>
 </div>
+<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<!--  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
+<script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.25.3/moment-with-locales.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
 <script>
+
+
+    $(function (){
+        initMenu();
+    })
+
+    /**
+     * 初始化音乐类别下拉菜单
+     */
+    function initMenu(){
+        $.ajax({
+            type:'get',
+            url:'/musicApp/musictype/queryList',
+            cache: false,
+            dataType: 'json',
+            success:function (res){
+                console.log("请求音乐类别数据：",res.result);
+                if(res.code == 1 && res.result){
+                    // 动态生成下拉列表
+                    $("#musictypeId").append($(`
+                              <option className = "disabled" readonly value="">请选择音乐类别</option>
+                        `))
+                    for(let val of res.result){
+                        $("#musictypeId").append($(`
+                                <option value="${val.musictypeId}">${val.musictypeName}</option>
+                            `))
+                    }
+                }
+            },
+            error:function (err){
+                bootoast({
+                    message: '服务器请求错误！',
+                    type: 'danger',
+                    position: 'top',
+                    timeout: 2
+                });
+            }
+        })
+    }
+    $(function (){
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',           // 显示年月日
+            locale: moment.locale('zh-cn')
+        })
+    })
+
+
     // 提交表单的方法
     function save() {
         // 获取表单数据
-        let musictypeName = $("#musictypeName").val();
-        let musictypeDepict = $("#musictypeDepict").val();
-
-        console.log(musictypeName,musictypeDepict);
+        let musicName = $("#musicName").val();
+        let musicPic = $("#musicPic").val();
+        let singer = $("#singer").val();
+        let recordCompany = $("#recordCompany").val();
+        let depict = $("#depict").val();
+        let price = $("#price").val();
+        let releaseDate = $("#releaseDate").val();
         // 进行非空校验
-        if (!musictypeName || musictypeName === '') {
+        if (!musicName || musicName === '') {
             bootoast({
-                message: '类别名称不能为空',
+                message: '音乐名称不能为空！',
                 type: 'danger',
                 position: 'top',
                 timeout: 2
             });
             return false;
         }
-        if (!musictypeDepict || musictypeDepict === '') {
+        if (!musicPic || musicPic === '') {
             bootoast({
-                message: '类别描述不能为空',
+                message: '封面图片不能为空！',
                 type: 'danger',
                 position: 'top',
                 timeout: 2
             });
             return false;
         }
-
-        console.log(`musictypeName=${musictypeName}&musictypeDepict=${musictypeDepict}`);
+        if (!singer || singer === '') {
+            bootoast({
+                message: '歌手不能为空！',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if (!recordCompany || recordCompany === '') {
+            bootoast({
+                message: '唱片公司不能为空！',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if (!depict || depict === '') {
+            bootoast({
+                message: '音乐描述不能为空！',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if (!price || price === '') {
+            bootoast({
+                message: '价格不能为空！',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if (!releaseDate || releaseDate === '') {
+            bootoast({
+                message: '发行日期不能为空！',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        console.log(`musicName=${musicName}&musicPic=${musicPic}&singer=${singer}&recordCompany=${recordCompany}
+                    &depict=${depict}&price=${price}&releaseDate=${String(releaseDate)}`);
         // 提交表单
         $.ajax({
             type: 'post',// 提交方式 post
-            url: $("#myForm").attr("action"),// /musictypeApp/musictype/add
+            url: $("#myForm").attr("action"),// /musictypeApp/music/add
             cache: false,// 不启用缓存
-            data: `musictypeName=${musictypeName}&musictypeDepict=${musictypeDepict}`,// 数据可以自由拼接
+            data: `musicName=${musicName}&musicPic=${musicPic}&singer=${singer}&recordCompany=${recordCompany}
+                    &depict=${depict}&price=${price}&releaseDate=${releaseDate}`,// 数据可以自由拼接
             dataType: 'json',// 期望服务器响应的数据类型 json
             success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
                 console.log(result);
-                // 提示
-                bootoast({
-                    message: result.msg,
-                    type: 'success',
-                    position:'top',
-                    timeout:2
-                });
+                if(result.code != 1){
+                    // 提示
+                    bootoast({
+                        message: result.msg,
+                        type: 'danger',
+                        position:'top',
+                        timeout:2
+                    });
+                }else {
+                    // 提示
+                    bootoast({
+                        message: result.msg,
+                        type: 'success',
+                        position:'top',
+                        timeout:2
+                    });
+                }
+
                 // 成功之后可以跳转
                 setTimeout(()=>{
-                    window.location.href = "musictype-list(无分页).html"
+                    window.location.href = "music-list.html"
                 },1000)
             },
             error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
