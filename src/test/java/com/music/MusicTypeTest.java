@@ -51,7 +51,7 @@ public class MusicTypeTest {
         MusicType musicType = new MusicType();
         musicType.setMusictypeId(2);
         musicType.setMusictypeName("欧美");
-//        musicType.setMusictypeDepict("民谣歌曲");
+        musicType.setMusictypeDepict("民谣歌曲");
         if(musicTypeMapper.updateMusicType(musicType) > 0){
             System.out.println("音乐类别修改成功！");
         }else{
