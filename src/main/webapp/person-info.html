@@ -61,11 +61,9 @@
                 user = JSON.parse(user);
                 $("#userId").val(user.userId)
                 $("#phone").val(user.phone)
-                $("#nickName").val(user.nickName)
-                $(`input[name=sex][value=${user.sex}]`).attr("checked",true)// 绑定单选按钮
+                $("#nickname").val(user.nickname)
+                $(`input[name=sex][value = ${user.sex}]`).attr("checked", true)// 绑定单选按钮
                 $("#address").val(user.address)
-
-
 
             }
         }
@@ -83,47 +81,36 @@
         </ol>
         <!-- 表单 -->
         <div class="myform">
-            <form id="myForm" action="/SelectCourse2/teacher/update" method="post">
+            <form id="myForm" action="/musicApp/users/update" method="post">
                 <div class="form-group">
                     <label for="userId">编<span style="color:transparent;user-select: none;">隐藏</span>号：</label>
-                    <input type="hidden" class="form-control" name="userId" id="userId">
+                    <input type="text" class="form-control" name="userId" id="userId" readonly>
                 </div>
                 <div class="form-group">
                     <label for="phone">电<span style="color:transparent;user-select: none;">隐藏</span>话：</label>
-                    <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话" readonly>
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话">
                 </div>
                 <div class="form-group">
                     <label for="nickName">昵<span style="color:transparent;user-select: none;">隐藏</span>称：</label>
-                    <input type="text" class="form-control" name="nickName" id="nickName" placeholder="请输入昵称">
+                    <input type="text" class="form-control" name="nickname" id="nickname" placeholder="请输入昵称">
                 </div>
                 <div class="form-group">
                     <label for="nickname">性<span style="color:transparent;user-select: none;">隐藏</span>别：</label>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="gender" id="optionsRadios1" value="男">
+                            <input type="radio" name="sex" id="optionsRadios1" value="男">
                             男
                         </label>
                         &nbsp;&nbsp;
                         <label>
-                            <input type="radio" name="gender" id="optionsRadios2" value="女">
+                            <input type="radio" name="sex" id="optionsRadios2" value="女">
                             女
                         </label>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label for="rank">职<span style="color:transparent;user-select: none;">隐藏</span>称：</label>
-                    <select class="form-control" id="rank" readonly>
-                        <option class="disabled" readonly>请选择职称</option>
-                        <option value="教授">教授</option>
-                        <option value="副教授">副教授</option>
-                        <option value="讲师">讲师</option>
-                        <option value="助教">助教</option>
-                        <option value="高级工程师">高级工程师</option>
-                        <option value="中级工程师">中级工程师</option>
-                        <option value="初级工程师">初级工程师</option>
-                        <option value="助理工程师">助理工程师</option>
-                    </select>
+                    <label for="address">家庭住址：</label>
+                    <textarea name="address" id="address" class="form-control" cols="30" rows="5"></textarea>
                 </div>
                 <button type="button" class="btn btn-success" onclick="save()">保存</button>
             </form>
