@@ -135,7 +135,7 @@
 
                                         <td class="text">${music.depict}</td>
                                         <td class="text">${music.price}</td>
-                                        <td class="text">${music.status?"已上架":"未上架"}</td>
+                                        <td class="${music.status?"text-success":"text-danger"}">${music.status?"已上架":"未上架"}</td>
 
 
                                         <td class="text">
@@ -144,7 +144,8 @@
                                                     data-music-name=${music.musicName} data-music-musictypeid=${music.musicType.musictypeId}
                                                     data-singer="${music.singer} data-record-company"=${music.recordCompany}
                                                     data-release-date=${music.releaseDate} data-depict=${music.depict} data-price=${music.price}>编辑</button>
-                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musict-id=${music.musicId}>删除</button>
+                                            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-music-id=${music.musicId} data-status=${music.status} data-target="#exampleModal3">${music.status?"下架":"上架"}</button>
+                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-music-id=${music.musicId}>删除</button>
                                         </td>
                                       </tr>
                                     `).appendTo($(".table tbody"))
@@ -211,14 +212,16 @@
                 $("#save-btn").click(function () {
                     that.save();
                 })
-                // 删除类别
+                // 删除音乐
                 $("#del-btn").click(function () {
-                    let musictypeId = $("#userId2").val();
-                    if (musictypeId) {
+                    console.log('点击删除')
+                    let musicId = $("#userId2").val();
+                    console.log(musicId)
+                    if (musicId) {
                         // 提交表单
                         $.ajax({
                             type: 'get',// 提交方式 post
-                            url: `/musicApp/musictype/delete/${musictypeId}`,
+                            url: `/musicApp/music/delete/${musicId}`,
                             cache: false,// 不启用缓存
                             dataType: 'json',// 期望服务器响应的数据类型 json
                             success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
@@ -242,9 +245,61 @@
                                 //setTimeout(()=>{
                                 // 更新列表
                                 that.queryAll(null);
-                                // 关闭修改模态框
+                                // 关闭删除模态框
                                 $('#exampleModal2').modal('hide')
                                 //},1000)
+
+                            },
+                            error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
+                                // 提示
+                                bootoast({
+                                    message: '服务器请求错误！',
+                                    type: 'danger',
+                                    position: 'top',
+                                    timeout: 2
+                                });
+                            }
+
+                        })
+                    }
+
+                });
+                // 上架/下架
+                $("#change-btn").click(function () {
+                    console.log('点击上架 / 下架')
+                    let musicId = $("#changestatus").val();
+                    console.log(musicId)
+                    if (musicId) {
+                        // 提交表单
+                        $.ajax({
+                            type: 'get',// 提交方式 post
+                            url: `/musicApp/music/changeStatus/${musicId}`,
+                            cache: false,// 不启用缓存
+                            dataType: 'json',// 期望服务器响应的数据类型 json
+                            success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
+                                console.log(result);
+                                // 提示
+                                if (result.code == 1) {
+                                    bootoast({
+                                        message: result.msg,
+                                        type: 'success',
+                                        position: 'top',
+                                        timeout: 2
+                                    });
+                                } else {
+                                    bootoast({
+                                        message: result.msg,
+                                        type: 'danger',
+                                        position: 'top',
+                                        timeout: 2
+                                    });
+                                }
+                                //setTimeout(()=>{
+                                // 更新列表
+                                that.queryAll(null);
+                                // 关闭模态框
+                                $('#exampleModal3').modal('hide')
+
 
                             },
                             error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
@@ -358,15 +413,33 @@
 
                 })
                 // 处理删除模态框
-                // 处理模态框
                 $('#exampleModal2').on('show.bs.modal', function (event) {
                     // 获取修改按钮
                     var button = $(event.relatedTarget) // Button that triggered the modal
                     // 接收传递的数据
-                    var musictypeId = button.data('musictype-id');
+                    var musicId = button.data('music-id');
                     var modal = $(this)
                     // 绑定数据
-                    modal.find('.modal-body #userId2').val(musictypeId);
+                    modal.find('.modal-body #userId2').val(musicId);
+
+                })
+                // 处理上架/下架模态框
+                $('#exampleModal3').on('show.bs.modal', function (event) {
+                    // 获取修改按钮
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    // 接收传递的数据
+                    var musicId = button.data('music-id');
+                    var status = button.data('status')
+                    console.log(status)
+                    var modal = $(this)
+                    // 绑定数据
+                    modal.find('.modal-body #changestatus').val(musicId);
+                    if(status){
+                        modal.find('.modal-body #onOrOff').text('确认下架该音乐？')
+                    }else{
+                        modal.find('.modal-body #onOrOff').text('确认上架该音乐？')
+                    }
+                    console.log('111111111', $(".modal-body #onOrOff"))
 
                 })
             }
@@ -456,7 +529,7 @@
                 <form action="/musicApp/musictype/update" method="post" id="myForm">
                     <!--编号只能查看，不能修改，所以使用readonly-->
                     <div class="form-group">
-                        <label for="musictypeId">编<span
+                        <label for="musicId">编<span
                                 style="color:transparent;user-select: none;">隐藏</span>号：</label>
                         <input type="text" class="form-control" name="musictypeId" id="musictypeId" readonly>
                     </div>
@@ -491,12 +564,35 @@
                     style="border-left: 5px solid dodgerblue;padding-left: 10px;">温馨提示</h4>
             </div>
             <div class="modal-body">
-                确定删除当前音乐类别？
+                确定删除当前音乐？
                 <input type="hidden" id="userId2">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="del-btn">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--上架下架模态框-->
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel3"
+                    style="border-left: 5px solid dodgerblue;padding-left: 10px;">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                          <h3 id="onOrOff"></h3>
+<!--                <input type="text" name="onOrOff" id="onOrOff">-->
+                <input type="hidden" id="changestatus">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="change-btn">确认</button>
             </div>
         </div>
     </div>

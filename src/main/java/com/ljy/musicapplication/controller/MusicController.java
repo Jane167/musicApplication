@@ -4,6 +4,7 @@ package com.ljy.musicapplication.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ljy.musicapplication.bean.Music;
+import com.ljy.musicapplication.bean.MusicType;
 import com.ljy.musicapplication.bean.RtnInfo;
 import com.ljy.musicapplication.mapper.MusicMapper;
 import com.mysql.jdbc.StringUtils;
@@ -110,5 +111,67 @@ public class MusicController {
     }
     // 编辑音乐的方法
 
-    // 删除音乐的方法
+    /**
+     * 修改状态：上架/下架
+     * 请求URL：musicApp/music/changeStatus/{musicId}
+     * 请求方法：GET
+     * 响应结果：JSON字符串
+     * @param musicId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "changeStatus/{musicId}", method = RequestMethod.GET)
+    public RtnInfo changeStatus(@PathVariable(value = "musicId", required = true) Integer musicId) throws Exception{
+        System.out.println("======进入到修改音乐状态的方法：=====" + musicId);
+        // 创建一个rtnInfo,封装返回给前端的信息
+        RtnInfo rtnInfo = new RtnInfo();
+
+        // 非空校验
+        if(StringUtils.isNullOrEmpty(musicId + "")){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐编号不能为空！");
+        }else{
+            // 访问数据库
+            if(musicMapper.changeStatus(musicId) > 0){
+                rtnInfo.setCode(1);
+                rtnInfo.setMsg("状态修改成功！");
+            }else {
+                rtnInfo.setCode(0);
+                rtnInfo.setMsg("状态修改失败！");
+            }
+        }
+        return rtnInfo;
+    }
+
+    /**
+     * 删除音乐
+     * 请求方法：GET
+     * 请求URL：musicApp/music/delete/{musicId}
+     * 响应结果：JSON字符串
+     * @param musicId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "delete/{musicId}")
+    public RtnInfo delete(@PathVariable(value = "musicId", required = true) Integer musicId) throws Exception{
+        System.out.println("==========进入到了音乐类别删除方法==========" + musicId);
+        // 创建rtnInfo，封装响应到前端的信息。
+        RtnInfo rtnInfo  = new RtnInfo();
+
+        // 非空校验
+        if(StringUtils.isNullOrEmpty(musicId + "")){
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐编号不能为空！");
+        }else{
+            // 访问数据库
+            if(musicMapper.deleteMusic2(musicId) > 0){
+                rtnInfo.setCode(1);
+                rtnInfo.setMsg("音乐类别删除成功！");
+            }else{
+                rtnInfo.setCode(0);
+                rtnInfo.setMsg("音乐类别删除失败！");
+            }
+        }
+        return rtnInfo;
+    }
 }

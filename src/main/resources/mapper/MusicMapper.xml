@@ -69,14 +69,19 @@
                 price=#{price},
             </if>
 
+
         </set>
         where music_id = #{musicId}
     </update>
-    <!--删除音乐类别（真删除）-->
+    <!--上架 / 下架音乐-->
+    <update id="changeStatus" parameterType="int">
+        update music set status = !status where music_id = #{musicId}
+    </update>
+    <!--删除音乐（真删除）-->
     <delete id="deleteMusic1" parameterType="int">
         delete from music where music_id = #{musicId}
     </delete>
-    <!--删除音乐类别（假删除）-->
+    <!--删除音乐（假删除）-->
     <update id="deleteMusic2" parameterType="int">
         update music set del_flag = 0 where music_id = #{musicId}
     </update>

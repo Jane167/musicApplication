@@ -27,6 +27,14 @@ public interface MusicMapper {
     public int updateMusic(Music music);
 
     /**
+     * 上架 / 下架
+     * @param musicId
+     * @return
+     */
+    public int changeStatus(Integer musicId);
+
+
+    /**
      * 删除音乐 （真删除）
      * @param musicId
      * @return

@@ -73,6 +73,18 @@ public class MusicTest {
     }
 
     /**
+     * 测试上架/下架
+     */
+    @Test
+    public void testChangeStatus(){
+        if(musicMapper.changeStatus(2)>0){
+            System.out.println("上架/下架成功！");
+        }else{
+            System.out.println("上架/下架失败！");
+        }
+    }
+
+    /**
      * 测试删除音乐
      * 真删除
      */
