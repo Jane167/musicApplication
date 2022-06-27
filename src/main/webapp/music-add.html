@@ -16,6 +16,7 @@
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="static/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
+    <script src="./static/js/ajaxupload.js"></script>
     <style>
         * {
             margin: 0;
@@ -148,10 +149,44 @@
 
 <script>
 
+    // 声明一个变量，存放上传成功后的图片的远程路径
+    let coursePic = '';
 
     $(function (){
         initMenu();
+        fileUpload()
     })
+    /**
+     * 文件上传
+     */
+    function fileUpload(){
+        //上传图片
+        new AjaxUpload('#addLabProdPic', {
+            action: '/musicApp/upload',// 对应服务器的url地址,大家只改这里一处地方
+            name: 'picFile',
+            responseType: 'json',
+            onSubmit : function(file , ext){
+                if (ext && /^(jpg|png|bmp)$/.test(ext.toLowerCase())){
+                    this.setData({
+                        'picName': file
+                    });
+                } else {
+                    alert("请上传格式为 jpg|png|bmp 的图片！");
+                    return false;
+                }
+            },
+            onComplete : function(file,response){
+                if(response.error) {
+                    alert(response.error);
+                    return;
+                }
+                console.log("response",response)
+                coursePic = "/musicApp/imgs/musicPic/"+response.result;// 大家这里只需要改称自己的根路径
+                console.log("获取上传的图片："+coursePic)
+                $('#viewImg').attr('src',coursePic);
+            }
+        });
+    }
 
     /**
      * 初始化音乐类别下拉菜单
@@ -198,7 +233,8 @@
     function save() {
         // 获取表单数据
         let musicName = $("#musicName").val();
-        let musicPic = $("#musicPic").val();
+        let musicPic = coursePic;
+        let musictypeId = $("#musictypeId option:selected").val()
         let singer = $("#singer").val();
         let recordCompany = $("#recordCompany").val();
         let depict = $("#depict").val();
@@ -208,6 +244,15 @@
         if (!musicName || musicName === '') {
             bootoast({
                 message: '音乐名称不能为空！',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if(!musictypeId || musictypeId === ''){
+            bootoast({
+                message: '音乐类别不能为空！',
                 type: 'danger',
                 position: 'top',
                 timeout: 2
@@ -268,14 +313,14 @@
             });
             return false;
         }
-        console.log(`musicName=${musicName}&musicPic=${musicPic}&singer=${singer}&recordCompany=${recordCompany}
+        console.log(`musicName=${musicName}&musicType.musictypeId=${musictypeId}&musicPic=${musicPic}&singer=${singer}&recordCompany=${recordCompany}
                     &depict=${depict}&price=${price}&releaseDate=${String(releaseDate)}`);
         // 提交表单
         $.ajax({
             type: 'post',// 提交方式 post
             url: $("#myForm").attr("action"),// /musictypeApp/music/add
             cache: false,// 不启用缓存
-            data: `musicName=${musicName}&musicPic=${musicPic}&singer=${singer}&recordCompany=${recordCompany}
+            data: `musicName=${musicName}&musicPic=${musicPic}&singer=${singer}&recordCompany=${recordCompany}&musicType.musictypeId=${musictypeId}
                     &depict=${depict}&price=${price}&releaseDate=${releaseDate}`,// 数据可以自由拼接
             dataType: 'json',// 期望服务器响应的数据类型 json
             success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果

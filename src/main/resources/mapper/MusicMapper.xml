@@ -30,8 +30,11 @@
     </insert>
     <!--查询所有音乐（支持关键字，不支持分页）mabatis模糊查询-->
     <select id="findMusicAll" parameterType="string" resultMap ="resultMusicMap">
-        select * from  music m, musictype mt
-        where m.musictype_id = mt.musictype_id
+        select m.music_id, m.music_name, m.music_pic, mt.musictype_id, m.singer, m.record_company,
+               m.release_date, m.depict, m.price, m.status
+               from  music m, musictype mt
+
+        where m.music_id = mt.musictype_id
         and m.del_flag = 1
         and (m.music_name like concat("%", #{keywords}, "%")
         || mt.musictype_name like concat("%", #{keywords}, "%")

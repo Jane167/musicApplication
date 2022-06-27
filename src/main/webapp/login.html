@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>后台音乐管理系统</title>
+    <link rel="stylesheet" href="static/css/dmaku.css"/>
+
+    <script type="text/javascript" src="static/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src='static/js/jquery.particleground.min.js'></script>
+    <script type='text/javascript' src='static/js/dmaku.js'></script>
     <!-- 引用bootstrap.css -->
     <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootstrap.css">
     <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootoast.css">
@@ -17,7 +22,8 @@
         }
 
         .my-container {
-            height: 100%;
+            margin: 0;
+            height: 10%;
             background: #16a085;
             background-repeat: no-repeat;
             background-size: 100% 100%;
@@ -36,7 +42,7 @@
         .logo {
             width: 100%;
             height: 80px;
-            padding:10px 5px 5px;
+            padding: 10px 5px 5px;
         }
 
         .logo img {
@@ -60,7 +66,8 @@
             width: 100%;
             padding: 10px 0;
         }
-        .footer{
+
+        .footer {
             position: absolute;
             bottom: 10px;
             left: 0;
@@ -68,10 +75,12 @@
             text-align: center;
             color: white;
         }
-        .vcode-box{
+
+        .vcode-box {
             position: relative;
         }
-        .vcode-box img{
+
+        .vcode-box img {
             width: 80px;
             height: 30px;
             position: absolute;
@@ -82,14 +91,15 @@
             z-index: 999;
             cursor: pointer;
         }
-        #demo-canvas{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /*z-index: -1;*/
-        }
+
+        /*#demo-canvas {*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    !*z-index: -1;*!*/
+        /*}*/
     </style>
     <!-- 引入jquery.js-->
     <script src="./static/bootstrap-3.4.1/js/jquery-3.6.0.min.js"></script>
@@ -97,22 +107,23 @@
     <script src="./static/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
     <script>
-        $(function (){
+        $(function () {
             let login = new Login();
             login.setCpacha();
             login.login();
         })
-        class Login{
+
+        class Login {
             constructor() {
             }
 
             /**
              * 设置验证码
              */
-            setCpacha(){
-                $("#vcode-img").attr("src","/musicApp/user/verifyCode");
-                $("#vcode-img").click(function (){
-                    this.src = this.src+"?"
+            setCpacha() {
+                $("#vcode-img").attr("src", "/musicApp/user/verifyCode");
+                $("#vcode-img").click(function () {
+                    this.src = this.src + "?"
                 })
             }
 
@@ -120,36 +131,36 @@
              * 输入检查
              * @returns {boolean} true:校验通过，false:校验不通过
              */
-            checkInput(){
+            checkInput() {
                 // 获取输入
                 let phone = $("#phone").val();
                 let password = $("#password").val();
                 let vcode = $("#vcode").val();
                 // 非空校验
-                if(!phone || phone==''){
+                if (!phone || phone == '') {
                     bootoast({
                         message: '账户不能为空！',
                         type: 'danger',
-                        position:'top',
-                        timeout:2
+                        position: 'top',
+                        timeout: 2
                     });
                     return false;
                 }
-                if(!password || password==''){
+                if (!password || password == '') {
                     bootoast({
                         message: '密码不能为空！',
                         type: 'danger',
-                        position:'top',
-                        timeout:2
+                        position: 'top',
+                        timeout: 2
                     });
                     return false;
                 }
-                if(!vcode || vcode==''){
+                if (!vcode || vcode == '') {
                     bootoast({
                         message: '验证码不能为空！',
                         type: 'danger',
-                        position:'top',
-                        timeout:2
+                        position: 'top',
+                        timeout: 2
                     });
                     return false;
                 }
@@ -159,11 +170,11 @@
             /**
              * 登录
              */
-            login(){
+            login() {
                 let that = this
-                $("#login-btn").click(function (){
+                $("#login-btn").click(function () {
                     // 输入校验
-                    if(that.checkInput()){// 校验通过
+                    if (that.checkInput()) {// 校验通过
                         // 提交表单
                         $.ajax({
                             type: 'post',// 提交方式 post
@@ -179,27 +190,28 @@
                                     bootoast({
                                         message: result.msg,
                                         type: 'success',
-                                        position:'top',
-                                        timeout:2
+                                        position: 'top',
+                                        timeout: 2
                                     });
                                     // 保存用户信息
                                     sessionStorage.setItem("userId", result.result.userId);
                                     sessionStorage.setItem("nickname", result.result.nickname);
                                     sessionStorage.setItem("role", result.result.role);
                                     // 保存登录用户的信息，在个人中心使用
-                                    sessionStorage.setItem("user",JSON.stringify(result.result))
+                                    sessionStorage.setItem("user", JSON.stringify(result.result))
                                     // 跳转到主界面
                                     var role = result.result.role;
 
-                                    setTimeout(()=>{},2000)
+                                    setTimeout(() => {
+                                    }, 2000)
                                     window.location.href = "home.html";
 
-                                }else{
+                                } else {
                                     bootoast({
                                         message: result.msg,
                                         type: 'danger',
-                                        position:'top',
-                                        timeout:2
+                                        position: 'top',
+                                        timeout: 2
                                     });
                                 }
                             },
@@ -208,8 +220,8 @@
                                 bootoast({
                                     message: '服务器请求错误！',
                                     type: 'danger',
-                                    position:'top',
-                                    timeout:2
+                                    position: 'top',
+                                    timeout: 2
                                 });
                             }
                         })
@@ -223,58 +235,62 @@
 </head>
 
 <body>
-<div class="container-fluid my-container" id="large-header">
+<div id="particles">
+    <div class="intro">
+        <div class="container-fluid my-container" id="large-header">
 
-    <div class="box">
-        <!-- logo -->
-        <div class="logo">
-            <img src="static/img/logo.png" alt="">
-        </div>
-        <div class="form">
-            <form class="form-horizontal" id="myForm" action="/musicApp/user/login">
-                <div class="form-group">
+            <div class="box">
+                <!-- logo -->
+                <div class="logo">
+                    <img src="static/img/logo.png" alt="">
+                </div>
+                <div class="form">
+                    <form class="form-horizontal" id="myForm" action="/musicApp/user/login">
+                        <div class="form-group">
 
-                    <div class="input-group input-group-md">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入账户">
-                    </div>
-                </div>
-                <div class="form-group">
-
-                    <div class="input-group input-group-md">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group input-group-md vcode-box">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                        <input type="text" class="form-control" id="vcode" name="vcode" placeholder="请输入验证码">
-                        <img alt="加载失败" id="vcode-img">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> 记住密码
-                            </label>
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入账户">
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-md vcode-box">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                <input type="text" class="form-control" id="vcode" name="vcode" placeholder="请输入验证码">
+                                <img alt="加载失败" id="vcode-img">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> 记住密码
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="button" class="btn btn-primary login-btn" id="login-btn">登录</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <div>
-                        <button type="button" class="btn btn-primary login-btn" id="login-btn">登录</button>
-                    </div>
-                </div>
-            </form>
+
+            </div>
+            <div class="footer">技术支持：卑微女大学生</div>
+            <!--            <canvas id="demo-canvas"></canvas>-->
         </div>
-
     </div>
-    <div class="footer">技术支持：卑微女大学生</div>
-    <canvas id="demo-canvas"></canvas>
 </div>
-
 </body>
 <script src="./static/js/TweenLite.min.js"></script>
 <script src="./static/js/EasePack.min.js"></script>

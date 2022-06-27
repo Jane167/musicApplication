@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <title>音乐列表</title>
+    <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootoast.css">
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .my-container {
+            height: 100%;
+        }
+
+        .panel-body {
+            height: 400px;
+            overflow: auto;
+        }
+
+        .panel-body::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+            height: 1px;
+        }
+
+        .panel-body::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 10px;
+            box-shadow: inset 0 0 5px rgb(255, 255, 255);
+            background: #868686;
+        }
+
+        .panel-body::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background: #ededed;
+        }
+
+        .table .text {
+            /* padding-top: 10px !important; */
+        }
+
+        .table th, .table td {
+            text-align: center;
+        }
+
+        .table td {
+            display: table-cell !important;
+            vertical-align: middle !important;
+        }
+
+        .footer {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+    <!-- 引入jquery.js-->
+    <script src="./static/bootstrap-3.4.1/js/jquery-3.6.0.min.js"></script>
+    <!-- 引入bootstrap.js-->
+    <script src="./static/bootstrap-3.4.1/js/bootstrap.js"></script>
+    <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
+    <script>
+        // 创建一个全局的keywords，查询用
+        var keywords = "''"
+        /**
+         * dom加载完成之后，自动执行
+         */
+        $(function () {
+            let adminHome = new AdminHome();
+            // 初始化模态框
+            adminHome.initModal();
+            // 获取学生列表数据
+            adminHome.queryAll(null);
+            // 初始化点击事件
+            adminHome.click();
+
+        })
+
+        class AdminHome {
+            constructor() {
+            }
+
+            /**
+             * 根据关键字从服务端获取学生列表信息
+             * @param keywords
+             */
+            queryAll(keywords, currentPage) {
+                // 处理关键字
+                if (!keywords) {
+                    keywords = "''";
+                }
+                // 处理当前页     如果当前页每页设置，默认第一页
+                if (!currentPage) {
+                    currentPage = 1;
+                }
+                // 为了防止添加的数据重复，所以需要清空之前添加的数据
+                $(".table tbody").empty();    // 每次先清空表格数据，再更新
+                $(".pagination").empty();     // 每次先清空分页条数据，再更新
+                // 我们在前端访问服务端接口使用jQuery提供的ajax
+                $.ajax({
+                    type: 'GET',// 提交方式，跟接口规定的一致
+                    url: `/musicApp/music/findAll/${keywords}/${currentPage}`,// url服务端的接口地址
+                    cache: false,// 不启用缓存
+                    dataType: 'json',// 期望后端返回的数据的类型
+                    success: function (res) {// success,成功响应后自动执行，res封装后端响应回来的信息
+                        console.log("返回类别列表信息", res)
+                        if (res.code == 1) {// 数据查询成功
+                            // 判断后端是否传过来列表数据
+                            if (res.result && res.result.list.length > 0) {// 有数据
+                                // 遍历类别数据
+                                for (let music of res.result.list) {
+                                    $(`
+                                      <tr>
+                                        <td class="text">${music.musicId}</td>
+                                        <td class="text">${music.musicName}</td>
+                                        <td class="text">
+                                            <img  src="${music.musicPic}" style="width: 160px; height: 100px"/>
+                                        </td>
+                                        <td class="text">${music.singer}</td>
+                                        <td class="text">${music.musicType.musictypeName}</td>
+                                        <td class="text">${music.recordCompany}</td>
+                                        <td class="text">${music.releaseDate}</td>
+
+                                        <td class="text">${music.depict}</td>
+                                        <td class="text">${music.price}</td>
+                                        <td class="text">${music.status?"已上架":"未上架"}</td>
+
+
+                                        <td class="text">
+                                           <button type="button" class="btn btn-sm btn-info"
+                                                    data-toggle="modal" data-target="#exampleModal" data-music-id=${music.musicId}
+                                                    data-music-name=${music.musicName} data-music-musictypeid=${music.musicType.musictypeId}
+                                                    data-singer="${music.singer} data-record-company"=${music.recordCompany}
+                                                    data-release-date=${music.releaseDate} data-depict=${music.depict} data-price=${music.price}>编辑</button>
+                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musict-id=${music.musicId}>删除</button>
+                                        </td>
+                                      </tr>
+                                    `).appendTo($(".table tbody"))
+                                }
+                                // 处理分页
+                                if (res.result.navigatepageNums && res.result.navigatepageNums.length > 0) {
+                                    // 遍历数组，获取页码
+                                    // 上一页
+                                    $(`<li>
+                                            <a href="javascript:void(0)" rel="${res.result.hasPreviousPage ? res.result.prePage : 1}" aria-label="Previous" onclick="changePage(this)">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                       </li>`).appendTo($(".pagination"))
+                                    // 数字页
+                                    for (let pageNum of res.result.navigatepageNums) {
+                                        console.log('页码', pageNum)
+                                        // 动态添加li到ul
+                                        $(`
+                                            <li><a href="javascript:void(0)" rel="${pageNum}" onclick="changePage(this)">${pageNum}</a></li>
+                                            `).appendTo($(".pagination"))
+                                    }
+                                    // 下一页
+                                    $(`<li>
+                                           <a href="javascript:void(0)" rel="${res.result.hasNextPage ? res.result.nextPage : res.result.pages}" aria-label="Next" onclick="changePage(this)">
+                                                 <span aria-hidden="true">&raquo;</span>
+                                           </a>
+                                        </li>`).appendTo($(".pagination"))
+                                    // 当前第n页，共n页
+                                    $(`<li>
+                                           <span aria-hidden="true">当前第${res.result.pageNum}页， 共${res.result.pages}页</span>
+                                        </li>`).appendTo($(".pagination"))
+                                }
+                            } else {// 无数据
+                                $(`
+                                  <tr>
+                                      <td colspan="9" style="text-align: center;border:none;padding: 150px 0;">当前没有查询到数据！</td>
+                                  </tr>
+                                `).appendTo($(".table tbody"))
+                            }
+                        } else {// 数据查询失败
+
+                        }
+                    },
+                    error: function (err) {
+                        console.log("Error=>", err);
+                    }
+                })
+            }
+
+            /**
+             * 管理所有的点击事件
+             */
+            click() {
+                // 点击事件中，无法获取到对象中的this
+                let that = this;
+                $("#searchBtn").click(function () {
+                    // 获取搜索输入框中内容
+                    keywords = $("#searchValue").val();
+                    // 访问服务器
+                    that.queryAll(keywords);
+
+                })
+                // 保存表单
+                $("#save-btn").click(function () {
+                    that.save();
+                })
+                // 删除类别
+                $("#del-btn").click(function () {
+                    let musictypeId = $("#userId2").val();
+                    if (musictypeId) {
+                        // 提交表单
+                        $.ajax({
+                            type: 'get',// 提交方式 post
+                            url: `/musicApp/musictype/delete/${musictypeId}`,
+                            cache: false,// 不启用缓存
+                            dataType: 'json',// 期望服务器响应的数据类型 json
+                            success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
+                                console.log(result);
+                                // 提示
+                                if (result.code == 1) {
+                                    bootoast({
+                                        message: result.msg,
+                                        type: 'success',
+                                        position: 'top',
+                                        timeout: 2
+                                    });
+                                } else {
+                                    bootoast({
+                                        message: result.msg,
+                                        type: 'danger',
+                                        position: 'top',
+                                        timeout: 2
+                                    });
+                                }
+                                //setTimeout(()=>{
+                                // 更新列表
+                                that.queryAll(null);
+                                // 关闭修改模态框
+                                $('#exampleModal2').modal('hide')
+                                //},1000)
+
+                            },
+                            error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
+                                // 提示
+                                bootoast({
+                                    message: '服务器请求错误！',
+                                    type: 'danger',
+                                    position: 'top',
+                                    timeout: 2
+                                });
+                            }
+
+                        })
+                    }
+
+                });
+            }
+
+            /**
+             * 修改音乐类别
+             * @returns {boolean}
+             */
+            save() {
+                let that = this;
+                // 非空校验
+                let musictypeId = $("#musictypeId").val();
+                let musictypeName = $("#musictypeName").val();
+                let musictypeDepict = $("#musictypeDepict").val();
+
+                // 进行非空校验
+                if (!musictypeId || musictypeId === '') {
+                    bootoast({
+                        message: '类别编号不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
+                if (!musictypeName || musictypeName === '') {
+                    bootoast({
+                        message: '类别名称不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
+                if (!musictypeDepict || musictypeDepict === '') {
+                    bootoast({
+                        message: '类别描述不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
+                // 提交表单
+                $.ajax({
+                    type: 'post',// 提交方式 post
+                    url: $("#myForm").attr("action"),// /musicApp/musictype/update
+                    cache: false,// 不启用缓存
+                    data: `musictypeId=${musictypeId}&musictypeName=${musictypeName}&musictypeDepict=${musictypeDepict}`,
+                    dataType: 'json',// 期望服务器响应的数据类型 json
+                    success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
+                        console.log(result);
+                        // 提示
+                        bootoast({
+                            message: result.msg,
+                            type: 'success',
+                            position: 'top',
+                            timeout: 2
+                        });
+                        // 更新列表
+                        that.queryAll(null);
+                        // 关闭修改模态框
+                        $('#exampleModal').modal('hide')
+                    },
+                    error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
+                        // 提示
+                        bootoast({
+                            message: '服务器请求错误！',
+                            type: 'danger',
+                            position: 'top',
+                            timeout: 2
+                        });
+                    }
+
+                })
+                return true;
+            }
+
+            /**
+             * 管理模态框
+             */
+            initModal() {
+                // 处理修改模态框
+                $('#exampleModal').on('show.bs.modal', function (event) {
+                    // 获取修改按钮
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    // 接收传递的数据
+                    var musictypeId = button.data('musictype-id');
+                    var musictypeName = button.data('musictype-name');
+                    var musictypeDepict = button.data('musictype-depict');
+
+                    var modal = $(this)
+                    // 绑定数据  将编辑按钮上携带的数据绑定到弹出框
+                    modal.find('.modal-body #musictypeId').val(musictypeId)
+                    modal.find('.modal-body #musictypeName').val(musictypeName)
+                    modal.find('.modal-body #musictypeDepict').val(musictypeDepict)
+
+                })
+                // 处理删除模态框
+                // 处理模态框
+                $('#exampleModal2').on('show.bs.modal', function (event) {
+                    // 获取修改按钮
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    // 接收传递的数据
+                    var musictypeId = button.data('musictype-id');
+                    var modal = $(this)
+                    // 绑定数据
+                    modal.find('.modal-body #userId2').val(musictypeId);
+
+                })
+            }
+
+        }
+
+        // 分页条跳转页面
+        function changePage(e) {
+            // 获取按钮上携带的页码
+            console.log('页码', $(e).attr("rel"))
+            new AdminHome().queryAll(keywords, $(e).attr("rel"))
+        }
+    </script>
+</head>
+
+<body>
+<div class="container-fluid my-container">
+    <!-- 页头 -->
+    <ol class="breadcrumb" style="margin-top:5px;">
+        <li><a href="#">主页</a></li>
+        <li><a href="#">音乐管理</a></li>
+        <li class="active">音乐列表</li>
+    </ol>
+    <!-- 检索框 -->
+    <form class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" id="searchValue" placeholder="请输入关键字">
+        </div>
+        <button type="button" class="btn btn-primary" id="searchBtn">搜索</button>
+        <!--        <button type="button" class="btn btn-danger">批量删除</button>-->
+    </form>
+    <!-- 内容 -->
+    <div class="panel panel-default" style="margin-top: 10px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">操作面板</h3>
+        </div>
+        <div class="panel-body">
+            <!-- 表格 -->
+            <table class="table table-hover table-condensed table-bordered table-striped">
+                <thead>
+                <!-- 标题行 -->
+                <tr>
+                    <th>编号</th>
+                    <th>音乐名称</th>
+                    <th>封面图片</th>
+                    <th>歌手</th>
+                    <th>音乐类别</th>
+                    <th>唱片公司</th>
+                    <th>发行日期</th>
+                    <th>描述</th>
+                    <th>价格</th>
+                    <th>状态</th>
+
+                    <th width="180">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 内容行 -->
+                </tbody>
+            </table>
+            <!-- 分页组件 -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <!--动态生成分页按钮-->
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+
+    <!-- 尾部 -->
+    <div class="footer">技术支持:睡不醒的前端</div>
+</div>
+<!-- 模态框 学生信息展示与修改-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel"
+                    style="border-left: 5px solid dodgerblue;padding-left: 10px;">编辑学生信息</h4>
+            </div>
+            <div class="modal-body">
+                <!-- 表单 -->
+                <form action="/musicApp/musictype/update" method="post" id="myForm">
+                    <!--编号只能查看，不能修改，所以使用readonly-->
+                    <div class="form-group">
+                        <label for="musictypeId">编<span
+                                style="color:transparent;user-select: none;">隐藏</span>号：</label>
+                        <input type="text" class="form-control" name="musictypeId" id="musictypeId" readonly>
+                    </div>
+                    <!--类别名称-->
+                    <div class="form-group">
+                        <label for="musictypeName">类别名称：</label>
+                        <input type="text" class="form-control" name="musictypeName" id="musictypeName">
+                    </div>
+                    <div class="form-group">
+                        <label for="musictypeDepict">类别描述</label>
+                        <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30"
+                                  rows="10"></textarea>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="save-btn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--删除元素模态框-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel2"
+                    style="border-left: 5px solid dodgerblue;padding-left: 10px;">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                确定删除当前音乐类别？
+                <input type="hidden" id="userId2">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="del-btn">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+</body>
+
+</html>
