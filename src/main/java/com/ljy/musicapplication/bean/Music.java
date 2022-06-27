@@ -12,7 +12,7 @@ public class Music {
     private String recordCompany;  // 唱片公司
     private String releaseDate;    // 发行时间
     private String depict;         // 描述
-    private double price;          // 价格
+    private Double price;          // 价格
     private int status;            // 状态
 
     public int getMusicId() {
@@ -79,11 +79,11 @@ public class Music {
         this.depict = depict;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

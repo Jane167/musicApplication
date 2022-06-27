@@ -5,8 +5,8 @@
 <mapper namespace="com.ljy.musicapplication.mapper.MusicMapper">
     <!-- 定义一个resultMap，封装查询回来的数据 -->
     <resultMap id="resultMusicMap" type="Music">
-        <!--建立music表字段与Music实体类属性之间的映射关系-->
-        <!--左边是表字段，右边是实体类的属性-->
+    <!--建立music表字段与Music实体类属性之间的映射关系-->
+    <!--左边是表字段，右边是实体类的属性-->
         <id column="music_id" property="musicId"></id>
         <result column="music_name" property="musicName"></result>
         <result column="music_pic" property="musicPic"></result>
@@ -39,15 +39,35 @@
     </select>
     <!--修改音乐-->
     <update id="updateMusic" parameterType="Music">
-        update musice set music_name = #{musicName},
-                          music_pic = #{musicPic},
-                          singer = #{singer},
-                          musictype_id = #{musicType.musictypeId},
-                          record_company = #{recordCompany},
-                          release_date = #{releaseDate},
-                          depict = #{depict},
-                          price = #{price},
-                          where music_id = #{musicId}
+        update music
+        <set>
+            <if test="musicName != null and musicName != ''">
+                music_name = #{musicName},
+            </if>
+            <if test="musicPic != null and musicPic != ''">
+                music_pic = #{musicPic},
+            </if>
+            <if test="singer != null and singer != ''">
+                singer = #{singer},
+            </if>
+            <if test="musicType != null and musicType.musictypeId!=''">
+                musictype_id = #{musicType.musictypeId},
+            </if>
+            <if test="recordCompany != null and recordCompany != ''">
+                record_company = #{recordCompany},
+            </if>
+            <if test="releaseDate != null and releaseDate != ''">
+                release_date = #{releaseDate},
+            </if>
+            <if test="depict != null and depict != ''">
+                depict = #{depict},
+            </if>
+            <if test="price!=null">
+                price=#{price},
+            </if>
+
+        </set>
+        where music_id = #{musicId}
     </update>
     <!--删除音乐类别（真删除）-->
     <delete id="deleteMusic1" parameterType="int">

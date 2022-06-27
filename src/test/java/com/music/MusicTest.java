@@ -60,12 +60,11 @@ public class MusicTest {
      */
     @Test
     public void testUpdateMusic(){
-        MusicType musicType = new MusicType();
-        musicType.setMusictypeId(4);
+
         Music music = new Music();
-        music.setMusicId(1);
+        music.setMusicId(2);
         music.setRecordCompany("音乐工作室");
-        music.setPrice(9.9);
+        music.setPrice(9.0);
         if(musicMapper.updateMusic(music) > 0){
             System.out.println("音乐类别修改成功！");
         }else{
