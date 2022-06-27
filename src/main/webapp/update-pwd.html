@@ -2,175 +2,222 @@
 <html lang="zh-CN">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
-  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-  <title>修改密码</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>修改密码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-    main .myform {
-      width: 30%;
-      margin-left: 40px;
-    }
+        main .myform {
+            width: 30%;
+            margin-left: 40px;
+        }
 
-    main p {
-      display: block;
-      width: 100%;
-      /* position: absolute;
-      bottom: 20px; */
-      text-align: center;
-      margin: 20px 0;
-    }
+        main p {
+            display: block;
+            width: 100%;
+            /* position: absolute;
+            bottom: 20px; */
+            text-align: center;
+            margin: 20px 0;
+        }
 
-    .footer {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 10px;
-      color: #666;
-      text-align: center;
-    }
-  </style>
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootstrap.css">
-  <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootoast.css">
-  <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-  <script src="static/bootstrap-3.4.1/js/jquery-3.6.0.min.js"></script>
-  <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-  <script src="static/bootstrap-3.4.1/js/bootstrap.js"></script>
-  <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
+        .footer {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="static/bootstrap-3.4.1/css/bootoast.css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="static/bootstrap-3.4.1/js/jquery-3.6.0.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="static/bootstrap-3.4.1/js/bootstrap.js"></script>
+    <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
 </head>
 
 <body>
 <div class="container-fluid my-container">
-  <main>
-    <!-- 路径导航 -->
-    <ol class="breadcrumb" style="margin-top:5px;">
-      <li><a href="#">主页</a></li>
-      <li><a href="#">个人中心</a></li>
-      <li class="active">修改密码</li>
-    </ol>
-    <!-- 表单 -->
-    <div class="myform">
-      <form id="myForm" action="/musicApp/user/updatePwd" method="post">
+    <main>
+        <!-- 路径导航 -->
+        <ol class="breadcrumb" style="margin-top:5px;">
+            <li><a href="#">主页</a></li>
+            <li><a href="#">个人中心</a></li>
+            <li class="active">修改密码</li>
+        </ol>
+        <!-- 表单 -->
+        <div class="myform">
+            <form id="myForm" action="/musicApp/user/updatePwd" method="post">
+                <div class="form-group">
+                    <label for="userId">编<span style="color:transparent;user-select: none;">隐藏</span>号：</label>
+                    <input type="text" class="form-control" name="userId" id="userId" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="oldPassword">旧密码：<span style="color:transparent;user-select: none;">隐</span></label>
+                    <input type="password" class="form-control" name="oldPassword" id="oldPassword"
+                           placeholder="请输入旧密码">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">新密码：<span style="color:transparent;user-select: none;">隐</span></label>
+                    <input type="password" class="form-control" name="newPassword" id="newPassword"
+                           placeholder="请输入新密码">
+                </div>
+                <div class="form-group">
+                    <label for="rePassword">确认密码：</label>
+                    <input type="password" class="form-control" name="rePassword" id="rePassword"
+                           placeholder="请再次输入新密码">
+                </div>
+                <button type="button" class="btn btn-success" onclick="save()" id="save-btn">保存</button>
+            </form>
 
-        <div class="form-group">
-          <label for="oldPassword">旧密码：<span style="color:transparent;user-select: none;">隐</span></label>
-          <input type="password" class="form-control" name="oldPassword" id="oldPassword" placeholder="请输入旧密码">
         </div>
-        <div class="form-group">
-          <label for="newPassword">新密码：<span style="color:transparent;user-select: none;">隐</span></label>
-          <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="请输入新密码">
-        </div>
-        <div class="form-group">
-          <label for="rePassword">确认密码：</label>
-          <input type="password" class="form-control" name="rePassword" id="rePassword" placeholder="请再次输入新密码">
-        </div>
-        <button type="button" class="btn btn-success" onclick="save()" id="save-btn">保存</button>
-      </form>
 
-    </div>
-
-  </main>
-  <!-- 尾部 -->
-  <div class="footer">技术支持: 睡不醒的前端</div>
+    </main>
+    <!-- 尾部 -->
+    <div class="footer">技术支持: 睡不醒的前端</div>
 </div>
 <script>
-  // 提交表单的方法
-  function save() {
-    // 非空校验
-    var oldPassword = $("#oldPassword").val();
-    var newPassword = $("#newPassword").val();
-    var rePassword = $("#rePassword").val();
-    // 进行非空校验
-    if (!oldPassword|| oldPassword === '') {
-      bootoast({
-        message: '旧密码不能为空',
-        type: 'danger',
-        position:'top',
-        timeout:2
-      });
-      return false;
-    }
-    if (!newPassword|| newPassword === '') {
-      bootoast({
-        message: '新密码不能为空',
-        type: 'danger',
-        position:'top',
-        timeout:2
-      });
-      return false;
+
+    $(function () {
+        initData();
+    })
+
+    /**
+     * 初始化数据
+     */
+    var userPassword = ''
+
+    function initData() {
+        // 获取登录保存的用户信息
+        let user = sessionStorage.getItem("user");
+        console.log("-------------个人信息：", user)
+        if (user) {
+            user = JSON.parse(user);
+            $("#userId").val(user.userId)
+        }
+        userPassword = user.password
     }
 
-    if (newPassword === oldPassword) {
-      bootoast({
-        message: '新密码不能和旧密码相同',
-        type: 'danger',
-        position:'top',
-        timeout:2
-      });
-      return false;
-    }
-    if (rePassword!=newPassword) {
-      bootoast({
-        message: '两次密码输入不一致',
-        type: 'danger',
-        position:'top',
-        timeout:2
-      });
-      return false;
-    }
-
-
-    // 提交表单
-    $.ajax({
-      type: 'post',// 提交方式 post
-      url: $("#myForm").attr("action"),// /SelectCourse2/student/add
-      cache: false,// 不启用缓存
-      data: `oldPassword=${oldPassword}&newPassword=${newPassword}`,
-      dataType: 'json',// 期望服务器响应的数据类型 json
-      success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
-        console.log(result);
-        //clearData();
-        // 提示
+    // 提交表单的方法
+    function save() {
+        // 非空校验
+        var userId = $("#userId").val()
+        var oldPassword = $("#oldPassword").val();
+        var newPassword = $("#newPassword").val();
+        var rePassword = $("#rePassword").val();
+        console.log(userPassword)
+        // 进行非空校验
+      if (!userId || userId === '') {
         bootoast({
-          message: result.msg,
-          type: 'success',
-          position:'top',
-          timeout:2
+          message: '用户编号不能为空',
+          type: 'danger',
+          position: 'top',
+          timeout: 2
         });
-        if(result.code == 1){
-          // 密码修改成功，跳转登录，重新进入
-          sessionStorage.clear();
-          window.top.location.href = "login.html";// 这个是跳出frame
+        return false;
+      }
+        if (!oldPassword || oldPassword === '') {
+            bootoast({
+                message: '旧密码不能为空',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if (oldPassword != userPassword) {
+            bootoast({
+                message: '旧密码错误！',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if (!newPassword || newPassword === '') {
+            bootoast({
+                message: '新密码不能为空',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
         }
 
-      },
-      error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
-        // 提示
-        bootoast({
-          message: "服务器请求错误！",
-          type: 'danger',
-          position:'top',
-          timeout:2
-        });
-      }
+        if (newPassword === oldPassword) {
+            bootoast({
+                message: '新密码不能和旧密码相同',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
+        if (rePassword != newPassword) {
+            bootoast({
+                message: '两次密码输入不一致',
+                type: 'danger',
+                position: 'top',
+                timeout: 2
+            });
+            return false;
+        }
 
-    })
-    return true;
-  }
 
-  /**
-   * 清空数据
-   */
-  function clearData(){
-    $("#myForm").empty();
-  }
+        // 提交表单
+        $.ajax({
+            type: 'post',// 提交方式 post
+            url: $("#myForm").attr("action"),// /SelectCourse2/student/add
+            cache: false,// 不启用缓存
+            data: `userId=${userId}&password=${newPassword}`,
+            dataType: 'json',// 期望服务器响应的数据类型 json
+            success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
+                console.log(result);
+                //clearData();
+                // 提示
+                bootoast({
+                    message: result.msg,
+                    type: 'success',
+                    position: 'top',
+                    timeout: 2
+                });
+                if (result.code == 1) {
+                    // 密码修改成功，跳转登录，重新进入
+                    sessionStorage.clear();
+                    window.top.location.href = "login.html";// 这个是跳出frame
+                }
+
+            },
+            error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
+                // 提示
+                bootoast({
+                    message: "服务器请求错误！",
+                    type: 'danger',
+                    position: 'top',
+                    timeout: 2
+                });
+            }
+
+        })
+        return true;
+    }
+
+    /**
+     * 清空数据
+     */
+    function clearData() {
+        $("#myForm").empty();
+    }
 </script>
 </body>
 

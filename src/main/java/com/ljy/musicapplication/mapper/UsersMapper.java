@@ -18,9 +18,10 @@ public interface UsersMapper {
     public Users login(Users users);
 
     /**
-     * 修改个人信息
+     * 修改个人信息（包括修改密码）
      * @param users
      * @return
      */
     public int updateUsers(Users users);
+
 }

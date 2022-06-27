@@ -11,14 +11,7 @@
           and password = #{password}
           and del_flag = 1
     </select>
-    <!--修改个人信息-->
-<!--    <update id="updateUsers" parameterType="Users">-->
-<!--        update users set phone = #{phone},-->
-<!--            nickname = #{nickname},-->
-<!--            sex = #{sex},-->
-<!--            address=#{address}-->
-<!--            where user_id = #{userId}-->
-<!--    </update>-->
+    <!--修改个人信息（包括修改密码）-->
     <update id="updateUsers" parameterType="Users">
         update users
         <set>
