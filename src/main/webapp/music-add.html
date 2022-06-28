@@ -30,7 +30,7 @@
 
         main {
             position: relative;
-            top: -320px;
+            top: -350px;
         }
 
         main .myform {
@@ -95,65 +95,65 @@
         <main>
             <!-- 路径导航 -->
             <ol class="breadcrumb" style="margin-top:5px;">
-                <li><a href="#">主页</a></li>
-                <li><a href="#">音乐管理</a></li>
-                <li class="active">添加音乐</li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Music Management</a></li>
+                <li class="active">Add Music</li>
             </ol>
             <!-- 表单 -->
             <div class="myform">
                 <form id="myForm" action="/musicApp/music/add" method="post">
                     <div class="form-group">
-                        <label for="musicName">音乐名称：</label>
-                        <input type="text" class="form-control" name="musicName" id="musicName" placeholder="请输入音乐名称">
+                        <label for="musicName">Music name：</label>
+                        <input type="text" class="form-control" name="musicName" id="musicName" placeholder="Please enter music name:">
                     </div>
                     <div class="form-group">
-                        <label for="musicPic">封面图片：</label>
+                        <label for="musicPic">Picture：</label>
                         <div>
                             <img src="./static/img/default-pic.png" class="img-thumbnail" alt=""
                                  style="height: 120px;position: relative;left: 0px;" id="viewImg"/>
                             <button type="button" class="btn btn-primary btn-xs" id="addLabProdPic"
-                                    style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择图片
+                                    style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;Choose Picture
                             </button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="singer">歌手：</label>
-                        <input type="text" class="form-control" name="singer" id="singer" placeholder="请输入歌手：">
+                        <label for="singer">Singer：</label>
+                        <input type="text" class="form-control" name="singer" id="singer" placeholder="Please enter singer：">
                     </div>
                     <div class="form-group">
-                        <label for="musictypeId">音乐类别：</label>
+                        <label for="musictypeId">Music type：</label>
                         <select class="form-control" id="musictypeId">
 
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="recordCompany">唱片公司：</label>
+                        <label for="recordCompany">Record company：</label>
                         <input type="text" class="form-control" name="recordCompany" id="recordCompany"
-                               placeholder="请输入唱片公司：">
+                               placeholder="Please enter record company：">
                     </div>
                     <div class="form-group">
-                        <label for="releaseDate">发行日期：</label>
+                        <label for="releaseDate">Release date：</label>
                         <div class="input-group date" id="datetimepicker1">
-                            <input type="text" class="form-control" id="releaseDate" placeholder="请选择发行日期：">
+                            <input type="text" class="form-control" id="releaseDate" placeholder="Please choose release date：">
                             <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="depict">音乐描述：</label>
+                        <label for="depict">Depict：</label>
                         <textarea name="depict" class="form-control" id="depict" cols="30" rows="5"
-                                  placeholder="请输入音乐描述："></textarea>
+                                  placeholder="Please enter the music depict："></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="price">单价：</label>
+                        <label for="price">Price：</label>
                         <div class="input-group">
                             <div class="input-group-addon">$</div>
-                            <input type="text" class="form-control" id="price" placeholder="请输入价格">
+                            <input type="text" class="form-control" id="price" placeholder="Please enter price:">
                             <div class="input-group-addon">.00</div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-success" onclick="save()">保存</button>
+                    <button type="button" class="btn btn-success" onclick="save()">Save</button>
                 </form>
 
             </div>
@@ -161,7 +161,7 @@
     </div>
 </div>
 <!-- 尾部 -->
-<div class="footer">技术支持:睡不醒的前端</div>
+<div class="footer">Copyright &copy; 2022 LiJiayin</div>
 
 <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
       rel="stylesheet">
@@ -225,7 +225,7 @@
                 if (res.code == 1 && res.result) {
                     // 动态生成下拉列表
                     $("#musictypeId").append($(`
-                              <option className = "disabled" readonly value="">请选择音乐类别</option>
+                              <option className = "disabled" readonly value="">Please choose music type:</option>
                         `))
                     for (let val of res.result) {
                         $("#musictypeId").append($(`

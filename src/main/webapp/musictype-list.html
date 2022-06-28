@@ -21,7 +21,7 @@
 
         main {
             position: relative;
-            top: -300px;
+            top: -330px;
         }
 
         .my-container {
@@ -142,8 +142,8 @@
 
                                         <td class="text">
                                            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#exampleModal" data-musictype-id=${musictype.musictypeId}
-                                    data-musictype-name=${musictype.musictypeName} data-musictype-depict=${musictype.musictypeDepict} >编辑</button>
-                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musictype-id=${musictype.musictypeId}>删除</button>
+                                    data-musictype-name=${musictype.musictypeName} data-musictype-depict=${musictype.musictypeDepict} >Edit</button>
+                                            <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-musictype-id=${musictype.musictypeId}>Delete</button>
                                         </td>
                                       </tr>
                                     `).appendTo($(".table tbody"))
@@ -173,7 +173,7 @@
                                         </li>`).appendTo($(".pagination"))
                                     // 当前第n页，共n页
                                     $(`<li>
-                                           <span aria-hidden="true">当前第${res.result.pageNum}页， 共${res.result.pages}页</span>
+                                           <span aria-hidden="true">Current page  ${res.result.pageNum}， total page  ${res.result.pages}</span>
                                         </li>`).appendTo($(".pagination"))
                                 }
                             } else {// 无数据
@@ -387,23 +387,23 @@
         <main>
             <!-- 页头 -->
             <ol class="breadcrumb" style="margin-top:5px;">
-                <li><a href="#">主页</a></li>
-                <li><a href="#">类别管理</a></li>
-                <li class="active">类别列表</li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Category Management</a></li>
+                <li class="active">Category List</li>
             </ol>
             <!-- 检索框 -->
             <form class="form-inline" style="margin-left: 20px">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="searchValue" placeholder="请输入关键字">
+                    <input type="text" class="form-control" id="searchValue" placeholder="Please enter keywords">
                 </div>
                 <button type="button" class="btn btn-sm btn-primary" id="searchBtn"><i
-                        class="glyphicon glyphicon-search"></i>搜索
+                        class="glyphicon glyphicon-search"></i>Search
                 </button>
             </form>
             <!-- 内容 -->
             <div class="panel panel-default" style="margin-top: 10px;">
                 <div class="panel-heading">
-                    <h3 class="panel-title">操作面板</h3>
+                    <h3 class="panel-title">Operation panel</h3>
                 </div>
                 <div class="panel-body">
                     <!-- 表格 -->
@@ -411,10 +411,10 @@
                         <thead>
                         <!-- 标题行 -->
                         <tr>
-                            <th>编号</th>
-                            <th>类别名称</th>
-                            <th>类别描述</th>
-                            <th width="180">操作</th>
+                            <th>Id</th>
+                            <th>Category name</th>
+                            <th>Category depict</th>
+                            <th width="180">operation</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -435,7 +435,7 @@
     </div>
 </div>
 <!-- 尾部 -->
-<div class="footer">技术支持:睡不醒的前端</div>
+<div class="footer">Copyright &copy; 2022 LiJiayin</div>
 
 <!-- 模态框 学生信息展示与修改-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -445,24 +445,23 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel"
-                    style="border-left: 5px solid dodgerblue;padding-left: 10px;">编辑学生信息</h4>
+                    style="border-left: 5px solid dodgerblue;padding-left: 10px;">Edit type information</h4>
             </div>
             <div class="modal-body">
                 <!-- 表单 -->
                 <form action="/musicApp/musictype/update" method="post" id="myForm">
                     <!--编号只能查看，不能修改，所以使用readonly-->
                     <div class="form-group">
-                        <label for="musictypeId">编<span
-                                style="color:transparent;user-select: none;">隐藏</span>号：</label>
+                        <label for="musictypeId">Id：</label>
                         <input type="text" class="form-control" name="musictypeId" id="musictypeId" readonly>
                     </div>
                     <!--类别名称-->
                     <div class="form-group">
-                        <label for="musictypeName">类别名称：</label>
+                        <label for="musictypeName">Category name：</label>
                         <input type="text" class="form-control" name="musictypeName" id="musictypeName">
                     </div>
                     <div class="form-group">
-                        <label for="musictypeDepict">类别描述</label>
+                        <label for="musictypeDepict">Category depict</label>
                         <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30"
                                   rows="10"></textarea>
                     </div>
@@ -470,8 +469,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="save-btn">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-btn">Save</button>
             </div>
         </div>
     </div>
@@ -491,8 +490,8 @@
                 <input type="hidden" id="userId2">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="del-btn">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="del-btn">Confirm</button>
             </div>
         </div>
     </div>

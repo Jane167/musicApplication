@@ -12,6 +12,7 @@ import java.util.List;
 public interface MusicTypeMapper {
     /**
      * 添加音乐类别
+     *
      * @param musicType
      * @return
      */
@@ -19,6 +20,7 @@ public interface MusicTypeMapper {
 
     /**
      * 查询音乐类别 （支持关键字 / 不支持关键字）
+     *
      * @param keywords
      * @return
      */
@@ -26,6 +28,7 @@ public interface MusicTypeMapper {
 
     /**
      * 修改音乐类别
+     *
      * @param musicType
      * @return
      */
@@ -33,6 +36,7 @@ public interface MusicTypeMapper {
 
     /**
      * 删除音乐类别 （真删除）
+     *
      * @param musictypeId
      * @return
      */
@@ -40,6 +44,7 @@ public interface MusicTypeMapper {
 
     /**
      * 删除音乐类别 （假删除）
+     *
      * @param musictypeId
      * @return
      */

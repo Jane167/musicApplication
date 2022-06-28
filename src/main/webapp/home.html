@@ -19,7 +19,7 @@
         body {
             width: 100%;
             height: 100%;
-            background: #16a085;
+            /*background: #16a085;*/
 
         }
 
@@ -59,7 +59,8 @@
             padding: 0;
             background: #16a085;
             width: 100%;
-            height: calc(100% - 120px);
+            height: calc(100% - 86px)
+            /*overflow: hidden;*/
         }
 
         .body .menu {
@@ -114,9 +115,9 @@
             </div>
             <!-- 登录信息 -->
             <div class="col-md-offset-5 col-md-3 user">
-                <span class="label label-default"  id="admin">管理员</span>
+                <span class="label label-default" id="admin">管理员</span>
                 <img src="static/img/default-pic-small.jpg" alt="..." class="img-circle">
-                <button type="button" class="btn btn-sm btn-danger" onclick="logout()">退出登录</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="logout()">Log out</button>
             </div>
         </div>
     </div>

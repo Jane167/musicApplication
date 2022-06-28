@@ -29,7 +29,7 @@
 
         main {
             position: relative;
-            top: -350px;
+            top: -400px;
         }
 
         main .myform {
@@ -63,25 +63,25 @@
         <main>
             <!-- 路径导航 -->
             <ol class="breadcrumb" style="margin-top:5px;">
-                <li><a href="#">主页</a></li>
-                <li><a href="#">类别管理</a></li>
-                <li class="active">添加类别</li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Category Management</a></li>
+                <li class="active">Add Category</li>
             </ol>
             <!-- 表单 -->
             <div class="myform">
                 <form id="myForm" action="/musicApp/musictype/add" method="post">
                     <div class="form-group">
-                        <label for="musictypeName">类别名称：</label>
+                        <label for="musictypeName">Category name：</label>
                         <input type="text" class="form-control" name="musictypeName" id="musictypeName"
-                               placeholder="请输入类别名称">
+                               placeholder="Please enter a category name：">
                     </div>
                     <div class="form-group">
-                        <label for="musictypeDepict">类别描述：</label>
+                        <label for="musictypeDepict">Category depict：</label>
                         <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30" rows="10"
-                                  placeholder="请输入类别描述"></textarea>
+                                  placeholder="Please enter a category depict："></textarea>
                     </div>
 
-                    <button type="button" class="btn btn-success" onclick="save()">保存</button>
+                    <button type="button" class="btn btn-success" onclick="save()">Save</button>
                 </form>
 
             </div>
@@ -89,7 +89,7 @@
         <!-- 尾部 -->
     </div>
 </div>
-<div class="footer">技术支持:睡不醒的前端</div>
+<div class="footer">Copyright &copy; 2022 LiJiayin</div>
 <script>
     // 提交表单的方法
     function save() {

@@ -74,7 +74,6 @@
                 $("#nickname").val(user.nickname)
                 $(`input[name=sex][value = ${user.sex}]`).attr("checked", true)// 绑定单选按钮
                 $("#address").val(user.address)
-
             }
         }
     </script>
@@ -87,29 +86,27 @@
         <main>
             <!-- 路径导航 -->
             <ol class="breadcrumb" style="margin-top:5px;">
-                <li><a href="#">主页</a></li>
-                <li><a href="#">个人中心</a></li>
-                <li class="active">个人信息</li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Personal Center</a></li>
+                <li class="active">Personal Information</li>
             </ol>
             <!-- 表单 -->
             <div class="myform">
                 <form id="myForm" action="/musicApp/user/updateUsers" method="post">
                     <div class="form-group">
-                        <label for="userId">编<span style="color:transparent;user-select: none;">隐藏</span>号：</label>
+                        <label for="userId">Id：</label>
                         <input type="text" class="form-control" name="userId" id="userId" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="phone">电<span style="color:transparent;user-select: none;">隐藏</span>话：</label>
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话">
+                        <label for="phone">Phone：</label>
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Please enter your phone:">
                     </div>
                     <div class="form-group">
-                        <label for="nickName">昵<span
-                                style="color:transparent;user-select: none;">隐藏</span>称：</label>
-                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="请输入昵称">
+                        <label for="nickName">Nickname：</label>
+                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Please enter your nickname:">
                     </div>
                     <div class="form-group">
-                        <label for="nickname">性<span
-                                style="color:transparent;user-select: none;">隐藏</span>别：</label>
+                        <label for="nickname">sex：</label>
                         <div class="radio">
                             <label>
                                 <input type="radio" name="sex" id="optionsRadios1" value="男">
@@ -123,10 +120,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="address">家庭住址：</label>
-                        <textarea name="address" id="address" class="form-control" cols="30" rows="5"></textarea>
+                        <label for="address">Address：</label>
+                        <textarea name="address" id="address" class="form-control" cols="30" rows="5" placeholder="Please enter your address:"></textarea>
                     </div>
-                    <button type="button" class="btn btn-success" onclick="save()">保存</button>
+                    <button type="button" class="btn btn-success" onclick="save()">save</button>
                 </form>
 
             </div>
@@ -134,7 +131,7 @@
     </div>
 </div>
 <!-- 尾部 -->
-<div class="footer">技术支持:睡不醒的前端</div>
+<div class="footer">Copyright &copy; 2022 LiJiayin</div>
 
 <script>
     // 提交表单的方法

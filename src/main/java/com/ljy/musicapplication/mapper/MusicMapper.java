@@ -1,6 +1,8 @@
 package com.ljy.musicapplication.mapper;
+
 import com.ljy.musicapplication.bean.Music;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 // 对music表的dao操作：增删改查
@@ -8,12 +10,15 @@ import java.util.List;
 public interface MusicMapper {
     /**
      * 添加音乐
+     *
      * @param music
      * @return
      */
     public int addMusic(Music music);
+
     /**
      * 查询音乐 （支持关键字 / 不支持关键字）
+     *
      * @param keywords
      * @return
      */
@@ -21,6 +26,7 @@ public interface MusicMapper {
 
     /**
      * 修改音乐
+     *
      * @param music
      * @return
      */
@@ -28,6 +34,7 @@ public interface MusicMapper {
 
     /**
      * 上架 / 下架
+     *
      * @param musicId
      * @return
      */
@@ -36,6 +43,7 @@ public interface MusicMapper {
 
     /**
      * 删除音乐 （真删除）
+     *
      * @param musicId
      * @return
      */
@@ -43,6 +51,7 @@ public interface MusicMapper {
 
     /**
      * 删除音乐 （假删除）
+     *
      * @param musicId
      * @return
      */

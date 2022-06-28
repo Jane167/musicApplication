@@ -62,33 +62,33 @@
         <main>
             <!-- 路径导航 -->
             <ol class="breadcrumb" style="margin-top:5px;">
-                <li><a href="#">主页</a></li>
-                <li><a href="#">个人中心</a></li>
-                <li class="active">修改密码</li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Personal Center</a></li>
+                <li class="active">Modify Password</li>
             </ol>
             <!-- 表单 -->
             <div class="myform">
                 <form id="myForm" action="/musicApp/user/updatePwd" method="post">
                     <div class="form-group">
-                        <label for="userId">编<span style="color:transparent;user-select: none;">隐藏</span>号：</label>
+                        <label for="userId">Id：</label>
                         <input type="text" class="form-control" name="userId" id="userId" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="oldPassword">旧密码：<span style="color:transparent;user-select: none;">隐</span></label>
+                        <label for="oldPassword">Old Password：<span style="color:transparent;user-select: none;">隐</span></label>
                         <input type="password" class="form-control" name="oldPassword" id="oldPassword"
-                               placeholder="请输入旧密码">
+                               placeholder="Please enter the old password">
                     </div>
                     <div class="form-group">
-                        <label for="newPassword">新密码：<span style="color:transparent;user-select: none;">隐</span></label>
+                        <label for="newPassword">New Password：<span style="color:transparent;user-select: none;">隐</span></label>
                         <input type="password" class="form-control" name="newPassword" id="newPassword"
-                               placeholder="请输入新密码">
+                               placeholder="Please enter the new password">
                     </div>
                     <div class="form-group">
-                        <label for="rePassword">确认密码：</label>
+                        <label for="rePassword">Repeat Password：</label>
                         <input type="password" class="form-control" name="rePassword" id="rePassword"
-                               placeholder="请再次输入新密码">
+                               placeholder="Please enter the new password again">
                     </div>
-                    <button type="button" class="btn btn-success" onclick="save()" id="save-btn">保存</button>
+                    <button type="button" class="btn btn-success" onclick="save()" id="save-btn">Save</button>
                 </form>
 
             </div>
@@ -97,7 +97,7 @@
     </div>
 </div>
 <!-- 尾部 -->
-<div class="footer">技术支持: 睡不醒的前端</div>
+<div class="footer">Copyright &copy; 2022 LiJiayin</div>
 
 <script>
 

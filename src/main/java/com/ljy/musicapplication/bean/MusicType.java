@@ -2,8 +2,8 @@ package com.ljy.musicapplication.bean;
 
 
 /*
-* musictype表对应的实体类
-* */
+ * musictype表对应的实体类
+ * */
 public class MusicType {
     private Integer musictypeId;    // 编号
     private String musictypeName;        // 类别名称

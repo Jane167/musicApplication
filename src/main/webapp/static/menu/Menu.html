@@ -16,8 +16,8 @@
 </head>
 
 <body>
-<h3 class="title"><i class="iconfont icon-category" style="margin-right: 15px"></i>菜单管理</h3>
-<ul id="accordion" class="accordion" style="height: 1900px">
+<h3 class="title"><i class="iconfont icon-category" style="margin-right: 15px"></i>Menu</h3>
+<ul id="accordion" class="accordion">
 </ul>
 
 
@@ -30,30 +30,30 @@
         if (role == 0) {// 管理员
             $(`
                     <li>
-                         <div class="link"><i class="iconfont icon-2xitong"></i>类别管理<i class="iconfont icon-leibieguanli"></i>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>Category Management<i class="iconfont icon-leibieguanli"></i>
                          </div>
                          <ul class="submenu">
 
-                           <li><a href="javascript:void(0)" onclick="forward('musictype-add.html')" target="card">添加类别</a></li>
-                           <li><a href="javascript:void(0)" onclick="forward('musictype-list.html')" target="card">类别列表</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('musictype-add.html')" target="card">Add Category</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('musictype-list.html')" target="card">Category List</a></li>
                          </ul>
                     </li>
                     <li>
-                         <div class="link"><i class="iconfont icon-2xitong"></i>音乐管理<i class="iconfont icon-yinle1"></i>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>Music Management<i class="iconfont icon-yinle1"></i>
                          </div>
                          <ul class="submenu">
 
-                           <li><a href="javascript:void(0)" onclick="forward('music-add.html')" target="card">添加音乐</a></li>
-                           <li><a href="javascript:void(0)" onclick="forward('music-list.html')" target="card">音乐列表</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('music-add.html')" target="card">Add Music</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('music-list.html')" target="card">Music List</a></li>
                          </ul>
                      </li>
 
                      <li>
-                         <div class="link"><i class="iconfont icon-2xitong"></i>个人中心<i class="iconfont icon-gerenzhongxin"></i>
+                         <div class="link"><i class="iconfont icon-2xitong"></i>Personal &nbsp;Center<i class="iconfont icon-gerenzhongxin"></i>
                          </div>
                          <ul class="submenu">
-                           <li><a href="javascript:void(0)" onclick="forward('person-info.html')" target="card">个人信息</a></li>
-                           <li><a href="javascript:void(0)" onclick="forward('update-pwd.html')" target="card">修改密码</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('person-info.html')" target="card">Personal information</a></li>
+                           <li><a href="javascript:void(0)" onclick="forward('update-pwd.html')" target="card">Modify password</a></li>
                          </ul>
                      </li>
                     `).appendTo($("#accordion"))

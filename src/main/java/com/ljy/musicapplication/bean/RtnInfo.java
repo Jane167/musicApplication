@@ -2,10 +2,10 @@ package com.ljy.musicapplication.bean;
 
 
 /*
-* 响应结果类
-* controller 统一返回类型
-*
-* */
+ * 响应结果类
+ * controller 统一返回类型
+ *
+ * */
 
 
 public class RtnInfo {
