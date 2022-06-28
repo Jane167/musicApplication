@@ -30,7 +30,7 @@
     </insert>
     <!--查询所有音乐（支持关键字，不支持分页）mabatis模糊查询-->
     <select id="findMusicAll" parameterType="string" resultMap ="resultMusicMap">
-        select m.music_id, m.music_name, m.music_pic, mt.musictype_id, m.singer, m.record_company,
+        select m.music_id, m.music_name, m.music_pic, mt.musictype_id,mt.musictype_name, m.singer, m.record_company,
                m.release_date, m.depict, m.price, m.status
                from  music m, musictype mt
 
