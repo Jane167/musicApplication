@@ -86,12 +86,12 @@
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
     <script src="./static/js/ajaxupload.js"></script>
     <link rel="stylesheet" href="static/css/dmaku.css"/>
-    <script type='text/javascript' src='static/js/jquery-1.11.1.min.js'></script>
+<!--    <script type='text/javascript' src='static/js/jquery-1.11.1.min.js'></script>-->
     <script type='text/javascript' src='static/js/jquery.particleground.min.js'></script>
     <script type='text/javascript' src='static/js/dmaku.js'></script>
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
           rel="stylesheet">
-    <!--  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
+<!--      <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
     <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.25.3/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -548,6 +548,7 @@
              * 管理模态框
              */
             initModal() {
+                console.log('执行初始化模态框代码')
                 // 处理修改模态框
                 $('#exampleModal').on('show.bs.modal', function (event) {
                     // 获取修改按钮

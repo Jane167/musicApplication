@@ -110,7 +110,6 @@ public class MusicController {
         }
         return rtnInfo;
     }
-    // 编辑音乐的方法
 
     /**
      * 编辑音乐的方法
