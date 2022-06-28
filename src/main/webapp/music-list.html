@@ -71,9 +71,16 @@
     <!-- 引入bootstrap.js-->
     <script src="./static/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
+    <script src="./static/js/ajaxupload.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!--  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
+    <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.25.3/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script>
         // 创建一个全局的keywords，查询用
         var keywords = "''"
+        // 声明一个变量，存放上传成功后的图片的远程路径
+        let coursePic = '';
         /**
          * dom加载完成之后，自动执行
          */
@@ -81,11 +88,83 @@
             let adminHome = new AdminHome();
             // 初始化模态框
             adminHome.initModal();
-            // 获取学生列表数据
+
             adminHome.queryAll(null);
             // 初始化点击事件
             adminHome.click();
+            fileUpload()
+            initMenu()
 
+        })
+        /**
+         * 文件上传
+         */
+        function fileUpload(){
+            //上传图片
+            new AjaxUpload('#addLabProdPic', {
+                action: '/musicApp/upload',// 对应服务器的url地址,大家只改这里一处地方
+                name: 'picFile',
+                responseType: 'json',
+                onSubmit : function(file , ext){
+                    if (ext && /^(jpg|png|bmp)$/.test(ext.toLowerCase())){
+                        this.setData({
+                            'picName': file
+                        });
+                    } else {
+                        alert("请上传格式为 jpg|png|bmp 的图片！");
+                        return false;
+                    }
+                },
+                onComplete : function(file,response){
+                    if(response.error) {
+                        alert(response.error);
+                        return;
+                    }
+                    console.log("response",response)
+                    coursePic = "/musicApp/imgs/musicPic/"+response.result;// 大家这里只需要改称自己的根路径
+                    console.log("获取上传的图片："+coursePic)
+                    $('#viewImg').attr('src',coursePic);
+                }
+            });
+        }
+        /**
+         * 初始化音乐类别下拉菜单
+         */
+        function initMenu(){
+            $.ajax({
+                type:'get',
+                url:'/musicApp/musictype/queryList',
+                cache: false,
+                dataType: 'json',
+                success:function (res){
+                    console.log("请求音乐类别数据：",res.result);
+                    if(res.code == 1 && res.result){
+                        // 动态生成下拉列表
+                        $("#musictypeId").append($(`
+                              <option className = "disabled" readonly value="">请选择音乐类别</option>
+                        `))
+                        for(let val of res.result){
+                            $("#musictypeId").append($(`
+                                <option value="${val.musictypeId}">${val.musictypeName}</option>
+                            `))
+                        }
+                    }
+                },
+                error:function (err){
+                    bootoast({
+                        message: '服务器请求错误！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                }
+            })
+        }
+        $(function (){
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',           // 显示年月日
+                locale: moment.locale('zh-cn')
+            })
         })
 
         class AdminHome {
@@ -135,16 +214,16 @@
 
                                         <td class="text">${music.depict}</td>
                                         <td class="text">${music.price}</td>
-                                        <td class="${music.status?"text-success":"text-danger"}">${music.status?"已上架":"未上架"}</td>
+                                        <td class="${music.status ? "text-success" : "text-danger"}">${music.status ? "已上架" : "未上架"}</td>
 
 
                                         <td class="text">
                                            <button type="button" class="btn btn-sm btn-info"
                                                     data-toggle="modal" data-target="#exampleModal" data-music-id=${music.musicId}
                                                     data-music-name=${music.musicName} data-music-musictypeid=${music.musicType.musictypeId}
-                                                    data-singer="${music.singer} data-record-company"=${music.recordCompany}
+                                                    data-singer=${music.singer} data-record-company=${music.recordCompany}
                                                     data-release-date=${music.releaseDate} data-depict=${music.depict} data-price=${music.price}>编辑</button>
-                                            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-music-id=${music.musicId} data-status=${music.status} data-target="#exampleModal3">${music.status?"下架":"上架"}</button>
+                                            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-music-id=${music.musicId} data-status=${music.status} data-target="#exampleModal3">${music.status ? "下架" : "上架"}</button>
                                             <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-music-id=${music.musicId}>删除</button>
                                         </td>
                                       </tr>
@@ -325,32 +404,84 @@
             save() {
                 let that = this;
                 // 非空校验
-                let musictypeId = $("#musictypeId").val();
-                let musictypeName = $("#musictypeName").val();
-                let musictypeDepict = $("#musictypeDepict").val();
+                let musicId = $("#musicId").val();
+                let musicName = $("#musicName").val();
+                let musicPic = coursePic;
+                let singer = $("#singer").val();
+                let musictypeId = $("#musictypeId option:selected").val()
+                let recordCompany = $("#recordCompany").val();
+                let releaseDate = $("#releaseDate").val();
+                let price = $("#price").val();
+                let depict = $("#depict").val();
 
                 // 进行非空校验
+                // 进行非空校验
+                if (!musicName || musicName === '') {
+                    bootoast({
+                        message: '音乐名称不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
                 if (!musictypeId || musictypeId === '') {
                     bootoast({
-                        message: '类别编号不能为空！',
+                        message: '音乐类别不能为空！',
                         type: 'danger',
                         position: 'top',
                         timeout: 2
                     });
                     return false;
                 }
-                if (!musictypeName || musictypeName === '') {
+                if (!musicPic || musicPic === '') {
                     bootoast({
-                        message: '类别名称不能为空！',
+                        message: '封面图片不能为空！',
                         type: 'danger',
                         position: 'top',
                         timeout: 2
                     });
                     return false;
                 }
-                if (!musictypeDepict || musictypeDepict === '') {
+                if (!singer || singer === '') {
                     bootoast({
-                        message: '类别描述不能为空！',
+                        message: '歌手不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
+                if (!recordCompany || recordCompany === '') {
+                    bootoast({
+                        message: '唱片公司不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
+                if (!depict || depict === '') {
+                    bootoast({
+                        message: '音乐描述不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
+                if (!price || price === '') {
+                    bootoast({
+                        message: '价格不能为空！',
+                        type: 'danger',
+                        position: 'top',
+                        timeout: 2
+                    });
+                    return false;
+                }
+                if (!releaseDate || releaseDate === '') {
+                    bootoast({
+                        message: '发行日期不能为空！',
                         type: 'danger',
                         position: 'top',
                         timeout: 2
@@ -360,9 +491,10 @@
                 // 提交表单
                 $.ajax({
                     type: 'post',// 提交方式 post
-                    url: $("#myForm").attr("action"),// /musicApp/musictype/update
+                    url: $("#myForm").attr("action"),// /musicApp/music/update
                     cache: false,// 不启用缓存
-                    data: `musictypeId=${musictypeId}&musictypeName=${musictypeName}&musictypeDepict=${musictypeDepict}`,
+                    data: `musicId=${musicId}&musicName=${musicName}&musicPic=${musicPic}&singer=${singer}&musicType.musictypeId=${musictypeId}
+                            &recordCompany=${recordCompany}&depict=${depict}&price=${price}&releaseDate=${releaseDate}`,
                     dataType: 'json',// 期望服务器响应的数据类型 json
                     success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
                         console.log(result);
@@ -401,15 +533,28 @@
                     // 获取修改按钮
                     var button = $(event.relatedTarget) // Button that triggered the modal
                     // 接收传递的数据
-                    var musictypeId = button.data('musictype-id');
-                    var musictypeName = button.data('musictype-name');
-                    var musictypeDepict = button.data('musictype-depict');
+                    var musicId = button.data('music-id');
+                    var musicName = button.data('music-name');
+                    var musicPic = button.data('music-pic');
+                    coursePic = musicPic;  // 如果这里不处理，图片会丢失
+                    var musictypeId = button.data('music-musictypeid');
+                    var singer = button.data('singer');
+                    var recordCompany = button.data('record-company');
+                    var releaseDate = button.data('release-date');
+                    var depict = button.data('depict');
+                    var price = button.data('price');
 
                     var modal = $(this)
                     // 绑定数据  将编辑按钮上携带的数据绑定到弹出框
-                    modal.find('.modal-body #musictypeId').val(musictypeId)
-                    modal.find('.modal-body #musictypeName').val(musictypeName)
-                    modal.find('.modal-body #musictypeDepict').val(musictypeDepict)
+                    modal.find('.modal-body #musicId').val(musicId)
+                    modal.find('.modal-body #musicName').val(musicName)
+                    modal.find('.modal-body #musictPic').val(musicPic)
+                    modal.find('.modal-body #musictypePic').val(musictypeId)
+                    modal.find('.modal-body #singer').val(singer)
+                    modal.find('.modal-body #recordCompany').val(recordCompany)
+                    modal.find('.modal-body #releaseDate').val(releaseDate)
+                    modal.find('.modal-body #depict').val(depict)
+                    modal.find('.modal-body #price').val(price)
 
                 })
                 // 处理删除模态框
@@ -434,9 +579,9 @@
                     var modal = $(this)
                     // 绑定数据
                     modal.find('.modal-body #changestatus').val(musicId);
-                    if(status){
+                    if (status) {
                         modal.find('.modal-body #onOrOff').text('确认下架该音乐？')
-                    }else{
+                    } else {
                         modal.find('.modal-body #onOrOff').text('确认上架该音乐？')
                     }
                     console.log('111111111', $(".modal-body #onOrOff"))
@@ -522,26 +667,68 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel"
-                    style="border-left: 5px solid dodgerblue;padding-left: 10px;">编辑学生信息</h4>
+                    style="border-left: 5px solid dodgerblue;padding-left: 10px;">编辑音乐信息</h4>
             </div>
             <div class="modal-body">
                 <!-- 表单 -->
-                <form action="/musicApp/musictype/update" method="post" id="myForm">
+                <form action="/musicApp/music/update" method="post" id="myForm">
                     <!--编号只能查看，不能修改，所以使用readonly-->
                     <div class="form-group">
                         <label for="musicId">编<span
                                 style="color:transparent;user-select: none;">隐藏</span>号：</label>
-                        <input type="text" class="form-control" name="musictypeId" id="musictypeId" readonly>
+                        <input type="text" class="form-control" name="musicId" id="musicId" readonly>
                     </div>
-                    <!--类别名称-->
+                    <!--音乐名称-->
                     <div class="form-group">
-                        <label for="musictypeName">类别名称：</label>
-                        <input type="text" class="form-control" name="musictypeName" id="musictypeName">
+                        <label for="musicName">音乐名称：</label>
+                        <input type="text" class="form-control" name="musicName" id="musicName">
                     </div>
                     <div class="form-group">
-                        <label for="musictypeDepict">类别描述</label>
-                        <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30"
-                                  rows="10"></textarea>
+                        <label for="musicPic">封面图片：</label>
+                        <div>
+                            <img src="./static/img/default-pic.png" class="img-thumbnail" alt=""
+                                 style="height: 120px;position: relative;left: 0px;" id="viewImg"/>
+                            <button type="button" class="btn btn-primary btn-xs" id="addLabProdPic"
+                                    style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择图片
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="singer">歌手：</label>
+                        <input type="text" class="form-control" name="singer" id="singer" placeholder="请输入歌手：">
+                    </div>
+                    <div class="form-group">
+                        <label for="musictypeId">音乐类别：</label>
+                        <select class="form-control" id="musictypeId">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordCompany">唱片公司：</label>
+                        <input type="text" class="form-control" name="recordCompany" id="recordCompany"
+                               placeholder="请输入唱片公司：">
+                    </div>
+                    <div class="form-group">
+                        <label for="releaseDate">发行日期：</label>
+                        <div class="input-group date" id="datetimepicker1">
+                            <input type="text" class="form-control" id="releaseDate" placeholder="releaseDate">
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="depict">音乐描述：</label>
+                        <textarea name="depict" class="form-control" id="depict" cols="30" rows="5"
+                                  placeholder="请输入音乐描述："></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">单价：</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" id="price" placeholder="请输入价格">
+                            <div class="input-group-addon">.00</div>
+                        </div>
                     </div>
 
                 </form>
@@ -586,8 +773,8 @@
                     style="border-left: 5px solid dodgerblue;padding-left: 10px;">温馨提示</h4>
             </div>
             <div class="modal-body">
-                          <h3 id="onOrOff"></h3>
-<!--                <input type="text" name="onOrOff" id="onOrOff">-->
+                <h3 id="onOrOff"></h3>
+                <!--                <input type="text" name="onOrOff" id="onOrOff">-->
                 <input type="hidden" id="changestatus">
             </div>
             <div class="modal-footer">

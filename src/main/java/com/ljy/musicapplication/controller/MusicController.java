@@ -11,6 +11,7 @@ import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.plaf.multi.MultiDesktopIconUI;
 import java.util.List;
 
 @RestController
@@ -87,7 +88,7 @@ public class MusicController {
     public RtnInfo finAll(@PathVariable(value = "keywords", required = true) String keywords,
                           @PathVariable(value = "currentPage", required = false) Integer currentPage) throws Exception {
         RtnInfo rtnInfo = new RtnInfo();
-        System.out.println("===============进入音乐查询页面========="+keywords+currentPage);
+        System.out.println("===============进入音乐查询页面=========" + keywords + currentPage);
         //非空校验
         if (StringUtils.isNullOrEmpty(keywords) || keywords.equals("''")) {
             keywords = "";
@@ -112,30 +113,81 @@ public class MusicController {
     // 编辑音乐的方法
 
     /**
+     * 编辑音乐的方法
+     * 请求方法：POST
+     * 请求URL：musicApp/music/update
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public RtnInfo update(Music music) throws Exception {
+        RtnInfo rtnInfo = new RtnInfo();
+        // 非空校验
+        if (StringUtils.isNullOrEmpty(music.getMusicName())) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐名称不能为空！");
+        } else if (StringUtils.isNullOrEmpty(music.getMusicPic())) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("封面图片不能为空！");
+        } else if (StringUtils.isNullOrEmpty(music.getSinger())) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("歌手不能为空！");
+        } else if (StringUtils.isNullOrEmpty(music.getMusicType().getMusictypeId() + "")) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐类别不能为空！");
+        } else if (StringUtils.isNullOrEmpty(music.getRecordCompany())) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("唱片公司不能为空！");
+        } else if (StringUtils.isNullOrEmpty(music.getReleaseDate())) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("发行时间不能为空！");
+        } else if (StringUtils.isNullOrEmpty(music.getDepict())) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("音乐描述不能为空！");
+        } else if (StringUtils.isNullOrEmpty(music.getPrice() + "")) {
+            rtnInfo.setCode(-1);
+            rtnInfo.setMsg("单价不能为空！");
+        } else {
+            // 访问数据库
+            if (musicMapper.updateMusic(music) > 0) {
+                rtnInfo.setCode(1);
+                rtnInfo.setMsg("音乐修改成功！");
+            } else {
+                rtnInfo.setCode(0);
+                rtnInfo.setMsg("音乐修改失败！");
+            }
+        }
+        return rtnInfo;
+
+    }
+
+    /**
      * 修改状态：上架/下架
      * 请求URL：musicApp/music/changeStatus/{musicId}
      * 请求方法：GET
      * 响应结果：JSON字符串
+     *
      * @param musicId
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "changeStatus/{musicId}", method = RequestMethod.GET)
-    public RtnInfo changeStatus(@PathVariable(value = "musicId", required = true) Integer musicId) throws Exception{
+    public RtnInfo changeStatus(@PathVariable(value = "musicId", required = true) Integer musicId) throws Exception {
         System.out.println("======进入到修改音乐状态的方法：=====" + musicId);
         // 创建一个rtnInfo,封装返回给前端的信息
         RtnInfo rtnInfo = new RtnInfo();
 
         // 非空校验
-        if(StringUtils.isNullOrEmpty(musicId + "")){
+        if (StringUtils.isNullOrEmpty(musicId + "")) {
             rtnInfo.setCode(-1);
             rtnInfo.setMsg("音乐编号不能为空！");
-        }else{
+        } else {
             // 访问数据库
-            if(musicMapper.changeStatus(musicId) > 0){
+            if (musicMapper.changeStatus(musicId) > 0) {
                 rtnInfo.setCode(1);
                 rtnInfo.setMsg("状态修改成功！");
-            }else {
+            } else {
                 rtnInfo.setCode(0);
                 rtnInfo.setMsg("状态修改失败！");
             }
@@ -148,26 +200,27 @@ public class MusicController {
      * 请求方法：GET
      * 请求URL：musicApp/music/delete/{musicId}
      * 响应结果：JSON字符串
+     *
      * @param musicId
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "delete/{musicId}")
-    public RtnInfo delete(@PathVariable(value = "musicId", required = true) Integer musicId) throws Exception{
+    public RtnInfo delete(@PathVariable(value = "musicId", required = true) Integer musicId) throws Exception {
         System.out.println("==========进入到了音乐类别删除方法==========" + musicId);
         // 创建rtnInfo，封装响应到前端的信息。
-        RtnInfo rtnInfo  = new RtnInfo();
+        RtnInfo rtnInfo = new RtnInfo();
 
         // 非空校验
-        if(StringUtils.isNullOrEmpty(musicId + "")){
+        if (StringUtils.isNullOrEmpty(musicId + "")) {
             rtnInfo.setCode(-1);
             rtnInfo.setMsg("音乐编号不能为空！");
-        }else{
+        } else {
             // 访问数据库
-            if(musicMapper.deleteMusic2(musicId) > 0){
+            if (musicMapper.deleteMusic2(musicId) > 0) {
                 rtnInfo.setCode(1);
                 rtnInfo.setMsg("音乐类别删除成功！");
-            }else{
+            } else {
                 rtnInfo.setCode(0);
                 rtnInfo.setMsg("音乐类别删除失败！");
             }
