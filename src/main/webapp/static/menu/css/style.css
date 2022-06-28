@@ -7,7 +7,7 @@
 }
 
 body {
-	background: #7691d9;
+	background: #16a085;
 	font-family: 'Open Sans', Arial, Helvetica, Sans-serif, Verdana, Tahoma;
 }
 
@@ -40,7 +40,7 @@ h1 a {
 	width:calc(100% - 4px);
 	max-width: 100%;
 	/* margin: 30px auto 20px; */
-	background: #7691d9;
+	background: #16a085;
 	/* -webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px; */
@@ -62,9 +62,9 @@ h1 a {
 	font-weight: 500 !important;
 	/*border-bottom: 1px solid #CCC !important;*/
 	position: relative !important;
-	-webkit-transition: all 0.4s ease !important;
-	-o-transition: all 0.4s ease !important;
-	transition: all 0.4s ease !important;
+	/*-webkit-transition: all 0.4s ease !important;*/
+	/*-o-transition: all 0.4s ease !important;*/
+	/*transition: all 0.4s ease !important;*/
 }
 
 .accordion li:last-child .link {
@@ -77,9 +77,9 @@ h1 a {
 	left: 12px !important;
 	font-size: 18px !important;
 	color: #595959 !important;
-	-webkit-transition: all 0.4s ease !important;
-	-o-transition: all 0.4s ease !important;
-	transition: all 0.4s ease !important;
+	/*-webkit-transition: all 0.4s ease !important;*/
+	/*-o-transition: all 0.4s ease !important;*/
+	/*transition: all 0.4s ease !important;*/
 }
 
 .accordion li i.fa-chevron-down {
@@ -108,7 +108,7 @@ h1 a {
  -----------------------------*/
 .submenu {
 	display: none;
-	background: #7691d9;
+	background: #16a085;
 	font-size: 14px;
 }
 
@@ -128,7 +128,7 @@ h1 a {
 	padding-left: 42px;
 	/*-webkit-transition: all 0.25s ease;*/
 	/*-o-transition: all 0.25s ease;*/
-	transition: all 0.25s ease;
+	/*transition: all 0.25s ease;*/
 }
 
 .submenu a:hover {
@@ -146,9 +146,9 @@ h3.title{
 	color: #fff;
 	padding: 10px 20px;
 	text-align: center;
-	background-color: #5e7ac5;
-	border-left:2px solid #5e7ac5;
-	border-right:2px solid #5e7ac5;
-	border-bottom:8px solid #5e7ac5;
+	background-color: #16a085;
+	border-left:2px solid #16a085;
+	border-right:2px solid #16a085;
+	border-bottom:8px solid #16a085;
 
 }

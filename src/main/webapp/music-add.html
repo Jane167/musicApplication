@@ -17,10 +17,20 @@
     <script src="static/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
     <script src="./static/js/ajaxupload.js"></script>
+
+    <link rel="stylesheet" href="static/css/dmaku.css"/>
+    <script type='text/javascript' src='static/js/jquery-1.11.1.min.js'></script>
+    <script type='text/javascript' src='static/js/jquery.particleground.min.js'></script>
+    <script type='text/javascript' src='static/js/dmaku.js'></script>
     <style>
         * {
             margin: 0;
             padding: 0;
+        }
+
+        main {
+            position: relative;
+            top: -320px;
         }
 
         main .myform {
@@ -45,12 +55,14 @@
             color: #666;
             text-align: center;
         }
-        .myform{
+
+        .myform {
             width: 500px !important;
             height: 450px;
             overflow: auto;
         }
-        .myform form{
+
+        .myform form {
             width: 450px;
         }
 
@@ -76,73 +88,83 @@
     </style>
 </head>
 
-<body>
-<div class="container-fluid my-container">
-    <main>
-        <!-- 路径导航 -->
-        <ol class="breadcrumb" style="margin-top:5px;">
-            <li><a href="#">主页</a></li>
-            <li><a href="#">音乐管理</a></li>
-            <li class="active">添加音乐</li>
-        </ol>
-        <!-- 表单 -->
-        <div class="myform">
-            <form id="myForm" action="/musicApp/music/add" method="post">
-                <div class="form-group">
-                    <label for="musicName">音乐名称：</label>
-                    <input type="text" class="form-control" name="musicName" id="musicName" placeholder="请输入音乐名称">
-                </div>
-                <div class="form-group">
-                    <label for="musicPic">封面图片：</label>
-                    <div>
-                        <img src="./static/img/default-pic.png" class="img-thumbnail" alt="" style="height: 120px;position: relative;left: 0px;" id="viewImg" />
-                        <button type="button" class="btn btn-primary btn-xs" id="addLabProdPic" style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择图片</button>
+<body style="background: #ffffff">
+<!--<div class="container-fluid my-container">-->
+<div id="particles">
+    <div class="intro">
+        <main>
+            <!-- 路径导航 -->
+            <ol class="breadcrumb" style="margin-top:5px;">
+                <li><a href="#">主页</a></li>
+                <li><a href="#">音乐管理</a></li>
+                <li class="active">添加音乐</li>
+            </ol>
+            <!-- 表单 -->
+            <div class="myform">
+                <form id="myForm" action="/musicApp/music/add" method="post">
+                    <div class="form-group">
+                        <label for="musicName">音乐名称：</label>
+                        <input type="text" class="form-control" name="musicName" id="musicName" placeholder="请输入音乐名称">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="singer">歌手：</label>
-                    <input type="text" class="form-control" name="singer" id="singer" placeholder="请输入歌手：">
-                </div>
-                <div class="form-group">
-                    <label for="musictypeId">音乐类别：</label>
-                    <select class="form-control" id="musictypeId">
+                    <div class="form-group">
+                        <label for="musicPic">封面图片：</label>
+                        <div>
+                            <img src="./static/img/default-pic.png" class="img-thumbnail" alt=""
+                                 style="height: 120px;position: relative;left: 0px;" id="viewImg"/>
+                            <button type="button" class="btn btn-primary btn-xs" id="addLabProdPic"
+                                    style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择图片
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="singer">歌手：</label>
+                        <input type="text" class="form-control" name="singer" id="singer" placeholder="请输入歌手：">
+                    </div>
+                    <div class="form-group">
+                        <label for="musictypeId">音乐类别：</label>
+                        <select class="form-control" id="musictypeId">
 
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="recordCompany">唱片公司：</label>
-                    <input type="text" class="form-control" name="recordCompany" id="recordCompany" placeholder="请输入唱片公司：">
-                </div>
-                <div class="form-group">
-                    <label for="releaseDate">发行日期：</label>
-                    <div class="input-group date" id="datetimepicker1">
-                        <input type="text" class="form-control" id="releaseDate" placeholder="releaseDate">
-                        <span class="input-group-addon">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordCompany">唱片公司：</label>
+                        <input type="text" class="form-control" name="recordCompany" id="recordCompany"
+                               placeholder="请输入唱片公司：">
+                    </div>
+                    <div class="form-group">
+                        <label for="releaseDate">发行日期：</label>
+                        <div class="input-group date" id="datetimepicker1">
+                            <input type="text" class="form-control" id="releaseDate" placeholder="请选择发行日期：">
+                            <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="depict">音乐描述：</label>
-                    <textarea name="depict" class="form-control" id="depict" cols="30" rows="5" placeholder="请输入音乐描述："></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="price">单价：</label>
-                    <div class="input-group">
-                        <div class="input-group-addon">$</div>
-                        <input type="text" class="form-control" id="price" placeholder="请输入价格">
-                        <div class="input-group-addon">.00</div>
+                    <div class="form-group">
+                        <label for="depict">音乐描述：</label>
+                        <textarea name="depict" class="form-control" id="depict" cols="30" rows="5"
+                                  placeholder="请输入音乐描述："></textarea>
                     </div>
-                </div>
-                <button type="button" class="btn btn-success" onclick="save()">保存</button>
-            </form>
+                    <div class="form-group">
+                        <label for="price">单价：</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" id="price" placeholder="请输入价格">
+                            <div class="input-group-addon">.00</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="save()">保存</button>
+                </form>
 
-        </div>
-    </main>
-    <!-- 尾部 -->
-    <div class="footer">技术支持:睡不醒的前端</div>
+            </div>
+        </main>
+    </div>
 </div>
-<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<!-- 尾部 -->
+<div class="footer">技术支持:睡不醒的前端</div>
+
+<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+      rel="stylesheet">
 <!--  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
 <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.25.3/moment-with-locales.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
@@ -152,21 +174,22 @@
     // 声明一个变量，存放上传成功后的图片的远程路径
     let coursePic = '';
 
-    $(function (){
+    $(function () {
         initMenu();
         fileUpload()
     })
+
     /**
      * 文件上传
      */
-    function fileUpload(){
+    function fileUpload() {
         //上传图片
         new AjaxUpload('#addLabProdPic', {
             action: '/musicApp/upload',// 对应服务器的url地址,大家只改这里一处地方
             name: 'picFile',
             responseType: 'json',
-            onSubmit : function(file , ext){
-                if (ext && /^(jpg|png|bmp)$/.test(ext.toLowerCase())){
+            onSubmit: function (file, ext) {
+                if (ext && /^(jpg|png|bmp)$/.test(ext.toLowerCase())) {
                     this.setData({
                         'picName': file
                     });
@@ -175,15 +198,15 @@
                     return false;
                 }
             },
-            onComplete : function(file,response){
-                if(response.error) {
+            onComplete: function (file, response) {
+                if (response.error) {
                     alert(response.error);
                     return;
                 }
-                console.log("response",response)
-                coursePic = "/musicApp/imgs/musicPic/"+response.result;// 大家这里只需要改称自己的根路径
-                console.log("获取上传的图片："+coursePic)
-                $('#viewImg').attr('src',coursePic);
+                console.log("response", response)
+                coursePic = "/musicApp/imgs/musicPic/" + response.result;// 大家这里只需要改称自己的根路径
+                console.log("获取上传的图片：" + coursePic)
+                $('#viewImg').attr('src', coursePic);
             }
         });
     }
@@ -191,27 +214,27 @@
     /**
      * 初始化音乐类别下拉菜单
      */
-    function initMenu(){
+    function initMenu() {
         $.ajax({
-            type:'get',
-            url:'/musicApp/musictype/queryList',
+            type: 'get',
+            url: '/musicApp/musictype/queryList',
             cache: false,
             dataType: 'json',
-            success:function (res){
-                console.log("请求音乐类别数据：",res.result);
-                if(res.code == 1 && res.result){
+            success: function (res) {
+                console.log("请求音乐类别数据：", res.result);
+                if (res.code == 1 && res.result) {
                     // 动态生成下拉列表
                     $("#musictypeId").append($(`
                               <option className = "disabled" readonly value="">请选择音乐类别</option>
                         `))
-                    for(let val of res.result){
+                    for (let val of res.result) {
                         $("#musictypeId").append($(`
                                 <option value="${val.musictypeId}">${val.musictypeName}</option>
                             `))
                     }
                 }
             },
-            error:function (err){
+            error: function (err) {
                 bootoast({
                     message: '服务器请求错误！',
                     type: 'danger',
@@ -221,7 +244,8 @@
             }
         })
     }
-    $(function (){
+
+    $(function () {
         $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD',           // 显示年月日
             locale: moment.locale('zh-cn')
@@ -250,7 +274,7 @@
             });
             return false;
         }
-        if(!musictypeId || musictypeId === ''){
+        if (!musictypeId || musictypeId === '') {
             bootoast({
                 message: '音乐类别不能为空！',
                 type: 'danger',
@@ -325,36 +349,36 @@
             dataType: 'json',// 期望服务器响应的数据类型 json
             success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
                 console.log(result);
-                if(result.code != 1){
+                if (result.code != 1) {
                     // 提示
                     bootoast({
                         message: result.msg,
                         type: 'danger',
-                        position:'top',
-                        timeout:2
+                        position: 'top',
+                        timeout: 2
                     });
-                }else {
+                } else {
                     // 提示
                     bootoast({
                         message: result.msg,
                         type: 'success',
-                        position:'top',
-                        timeout:2
+                        position: 'top',
+                        timeout: 2
                     });
                 }
 
                 // 成功之后可以跳转
-                setTimeout(()=>{
+                setTimeout(() => {
                     window.location.href = "music-list.html"
-                },1000)
+                }, 1000)
             },
             error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
                 // 提示
                 bootoast({
                     message: '服务器请求错误！',
                     type: 'danger',
-                    position:'top',
-                    timeout:2
+                    position: 'top',
+                    timeout: 2
                 });
 
             }

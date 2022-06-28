@@ -24,6 +24,15 @@
             overflow: auto;
         }
 
+        main {
+            position: relative;
+            top: -300px;
+        }
+
+        .panel {
+            margin: 10px !important;
+        }
+
         .panel-body::-webkit-scrollbar {
             /*滚动条整体样式*/
             width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
@@ -42,6 +51,10 @@
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             background: #ededed;
+        }
+
+        table {
+            background: transparent;
         }
 
         .table .text {
@@ -72,10 +85,16 @@
     <script src="./static/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
     <script src="./static/js/ajaxupload.js"></script>
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/dmaku.css"/>
+    <script type='text/javascript' src='static/js/jquery-1.11.1.min.js'></script>
+    <script type='text/javascript' src='static/js/jquery.particleground.min.js'></script>
+    <script type='text/javascript' src='static/js/dmaku.js'></script>
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
     <!--  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
     <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.25.3/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
     <script>
         // 创建一个全局的keywords，查询用
         var keywords = "''"
@@ -96,17 +115,18 @@
             initMenu()
 
         })
+
         /**
          * 文件上传
          */
-        function fileUpload(){
+        function fileUpload() {
             //上传图片
             new AjaxUpload('#addLabProdPic', {
                 action: '/musicApp/upload',// 对应服务器的url地址,大家只改这里一处地方
                 name: 'picFile',
                 responseType: 'json',
-                onSubmit : function(file , ext){
-                    if (ext && /^(jpg|png|bmp)$/.test(ext.toLowerCase())){
+                onSubmit: function (file, ext) {
+                    if (ext && /^(jpg|png|bmp)$/.test(ext.toLowerCase())) {
                         this.setData({
                             'picName': file
                         });
@@ -115,42 +135,43 @@
                         return false;
                     }
                 },
-                onComplete : function(file,response){
-                    if(response.error) {
+                onComplete: function (file, response) {
+                    if (response.error) {
                         alert(response.error);
                         return;
                     }
-                    console.log("response",response)
-                    coursePic = "/musicApp/imgs/musicPic/"+response.result;// 大家这里只需要改称自己的根路径
-                    console.log("获取上传的图片："+coursePic)
-                    $('#viewImg').attr('src',coursePic);
+                    console.log("response", response)
+                    coursePic = "/musicApp/imgs/musicPic/" + response.result;// 大家这里只需要改称自己的根路径
+                    console.log("获取上传的图片：" + coursePic)
+                    $('#viewImg').attr('src', coursePic);
                 }
             });
         }
+
         /**
          * 初始化音乐类别下拉菜单
          */
-        function initMenu(){
+        function initMenu() {
             $.ajax({
-                type:'get',
-                url:'/musicApp/musictype/queryList',
+                type: 'get',
+                url: '/musicApp/musictype/queryList',
                 cache: false,
                 dataType: 'json',
-                success:function (res){
-                    console.log("请求音乐类别数据：",res.result);
-                    if(res.code == 1 && res.result){
+                success: function (res) {
+                    console.log("请求音乐类别数据：", res.result);
+                    if (res.code == 1 && res.result) {
                         // 动态生成下拉列表
                         $("#musictypeId").append($(`
                               <option className = "disabled" readonly value="">请选择音乐类别</option>
                         `))
-                        for(let val of res.result){
+                        for (let val of res.result) {
                             $("#musictypeId").append($(`
                                 <option value="${val.musictypeId}">${val.musictypeName}</option>
                             `))
                         }
                     }
                 },
-                error:function (err){
+                error: function (err) {
                     bootoast({
                         message: '服务器请求错误！',
                         type: 'danger',
@@ -160,7 +181,8 @@
                 }
             })
         }
-        $(function (){
+
+        $(function () {
             $('#datetimepicker1').datetimepicker({
                 format: 'YYYY-MM-DD',           // 显示年月日
                 locale: moment.locale('zh-cn')
@@ -214,16 +236,14 @@
 
                                         <td class="text">${music.depict}</td>
                                         <td class="text">${music.price}</td>
-                                        <td class="${music.status ? "text-success" : "text-danger"}">${music.status ? "已上架" : "未上架"}</td>
-
-
+                                        <td class="text"><span class="${music.status ? "label-primary label" : "label-default label"}">${music.status ? "已上架" : "未上架"}</span></td>
                                         <td class="text">
                                            <button type="button" class="btn btn-sm btn-info"
                                                     data-toggle="modal" data-target="#exampleModal" data-music-id=${music.musicId}
                                                     data-music-name=${music.musicName} data-music-musictypeid=${music.musicType.musictypeId}
                                                     data-singer=${music.singer} data-record-company=${music.recordCompany}
                                                     data-release-date=${music.releaseDate} data-depict=${music.depict} data-price=${music.price}>编辑</button>
-                                            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-music-id=${music.musicId} data-status=${music.status} data-target="#exampleModal3">${music.status ? "下架" : "上架"}</button>
+                                            <button type="button" class="${music.status ? "btn btn-sm btn-success" : "btn btn-sm btn-warning"}" data-toggle="modal" data-music-id=${music.musicId} data-status=${music.status} data-target="#exampleModal3">${music.status ? "下架" : "上架"}</button>
                                             <button type="button" class="btn btn-sm  btn-danger" data-toggle="modal" data-target="#exampleModal2" data-music-id=${music.musicId}>删除</button>
                                         </td>
                                       </tr>
@@ -600,64 +620,67 @@
     </script>
 </head>
 
-<body>
-<div class="container-fluid my-container">
-    <!-- 页头 -->
-    <ol class="breadcrumb" style="margin-top:5px;">
-        <li><a href="#">主页</a></li>
-        <li><a href="#">音乐管理</a></li>
-        <li class="active">音乐列表</li>
-    </ol>
-    <!-- 检索框 -->
-    <form class="form-inline">
-        <div class="form-group">
-            <input type="text" class="form-control" id="searchValue" placeholder="请输入关键字">
-        </div>
-        <button type="button" class="btn btn-primary" id="searchBtn">搜索</button>
-        <!--        <button type="button" class="btn btn-danger">批量删除</button>-->
-    </form>
-    <!-- 内容 -->
-    <div class="panel panel-default" style="margin-top: 10px;">
-        <div class="panel-heading">
-            <h3 class="panel-title">操作面板</h3>
-        </div>
-        <div class="panel-body">
-            <!-- 表格 -->
-            <table class="table table-hover table-condensed table-bordered table-striped">
-                <thead>
-                <!-- 标题行 -->
-                <tr>
-                    <th>编号</th>
-                    <th>音乐名称</th>
-                    <th>封面图片</th>
-                    <th>歌手</th>
-                    <th>音乐类别</th>
-                    <th>唱片公司</th>
-                    <th>发行日期</th>
-                    <th>描述</th>
-                    <th>价格</th>
-                    <th>状态</th>
+<body style="background: #ffffff">
+<div id="particles">
+    <div class="intro">
+        <main>
+            <!-- 页头 -->
+            <ol class="breadcrumb" style="margin-top:5px;">
+                <li><a href="#">主页</a></li>
+                <li><a href="#">音乐管理</a></li>
+                <li class="active">音乐列表</li>
+            </ol>
+            <!-- 检索框 -->
+            <form class="form-inline" style="margin-left: 20px">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="searchValue" placeholder="请输入关键字">
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" id="searchBtn"><i
+                        class="glyphicon glyphicon-search"></i>搜索
+                </button>
+            </form>
+            <!-- 内容 -->
+            <div class="panel panel-default" style="margin-top: 10px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">操作面板</h3>
+                </div>
+                <div class="panel-body">
+                    <!-- 表格 -->
+                    <table class="table table-hover table-condensed table-bordered table-striped">
+                        <thead>
+                        <!-- 标题行 -->
+                        <tr>
+                            <th>编号</th>
+                            <th>音乐名称</th>
+                            <th>封面图片</th>
+                            <th>歌手</th>
+                            <th>音乐类别</th>
+                            <th>唱片公司</th>
+                            <th>发行日期</th>
+                            <th>描述</th>
+                            <th>价格</th>
+                            <th>状态</th>
 
-                    <th width="180">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- 内容行 -->
-                </tbody>
-            </table>
-            <!-- 分页组件 -->
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <!--动态生成分页按钮-->
-                </ul>
-            </nav>
+                            <th width="180">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- 内容行 -->
+                        </tbody>
+                    </table>
+                    <!-- 分页组件 -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <!--动态生成分页按钮-->
+                        </ul>
+                    </nav>
 
-        </div>
+                </div>
+            </div>
+            <!-- 尾部 -->
+            <div class="footer">技术支持:睡不醒的前端</div>
+        </main>
     </div>
-
-
-    <!-- 尾部 -->
-    <div class="footer">技术支持:睡不醒的前端</div>
 </div>
 <!-- 模态框 学生信息展示与修改-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -711,7 +734,7 @@
                     <div class="form-group">
                         <label for="releaseDate">发行日期：</label>
                         <div class="input-group date" id="datetimepicker1">
-                            <input type="text" class="form-control" id="releaseDate" placeholder="releaseDate">
+                            <input type="text" class="form-control" id="releaseDate" placeholder="请选择发行日期：">
                             <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>

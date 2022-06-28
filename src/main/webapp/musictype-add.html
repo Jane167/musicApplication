@@ -16,10 +16,20 @@
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="static/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
+
+    <link rel="stylesheet" href="static/css/dmaku.css"/>
+    <script type='text/javascript' src='static/js/jquery-1.11.1.min.js'></script>
+    <script type='text/javascript' src='static/js/jquery.particleground.min.js'></script>
+    <script type='text/javascript' src='static/js/dmaku.js'></script>
     <style>
         * {
             margin: 0;
             padding: 0;
+        }
+
+        main {
+            position: relative;
+            top: -350px;
         }
 
         main .myform {
@@ -47,35 +57,39 @@
     </style>
 </head>
 
-<body>
-<div class="container-fluid my-container">
-    <main>
-        <!-- 路径导航 -->
-        <ol class="breadcrumb" style="margin-top:5px;">
-            <li><a href="#">主页</a></li>
-            <li><a href="#">类别管理</a></li>
-            <li class="active">添加类别</li>
-        </ol>
-        <!-- 表单 -->
-        <div class="myform">
-            <form id="myForm" action="/musicApp/musictype/add" method="post">
-                <div class="form-group">
-                    <label for="musictypeName">类别名称：</label>
-                    <input type="text" class="form-control" name="musictypeName" id="musictypeName" placeholder="请输入类别名称">
-                </div>
-                <div class="form-group">
-                    <label for="musictypeDepict">类别描述：</label>
-                    <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30" rows="10" placeholder="请输入类别描述"></textarea>
-                </div>
+<body style="background: #ffffff">
+<div id="particles">
+    <div class="intro">
+        <main>
+            <!-- 路径导航 -->
+            <ol class="breadcrumb" style="margin-top:5px;">
+                <li><a href="#">主页</a></li>
+                <li><a href="#">类别管理</a></li>
+                <li class="active">添加类别</li>
+            </ol>
+            <!-- 表单 -->
+            <div class="myform">
+                <form id="myForm" action="/musicApp/musictype/add" method="post">
+                    <div class="form-group">
+                        <label for="musictypeName">类别名称：</label>
+                        <input type="text" class="form-control" name="musictypeName" id="musictypeName"
+                               placeholder="请输入类别名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="musictypeDepict">类别描述：</label>
+                        <textarea name="musictypeDepict" class="form-control" id="musictypeDepict" cols="30" rows="10"
+                                  placeholder="请输入类别描述"></textarea>
+                    </div>
 
-                <button type="button" class="btn btn-success" onclick="save()">保存</button>
-            </form>
+                    <button type="button" class="btn btn-success" onclick="save()">保存</button>
+                </form>
 
-        </div>
-    </main>
-    <!-- 尾部 -->
-    <div class="footer">技术支持:睡不醒的前端</div>
+            </div>
+        </main>
+        <!-- 尾部 -->
+    </div>
 </div>
+<div class="footer">技术支持:睡不醒的前端</div>
 <script>
     // 提交表单的方法
     function save() {
@@ -83,7 +97,7 @@
         let musictypeName = $("#musictypeName").val();
         let musictypeDepict = $("#musictypeDepict").val();
 
-        console.log(musictypeName,musictypeDepict);
+        console.log(musictypeName, musictypeDepict);
         // 进行非空校验
         if (!musictypeName || musictypeName === '') {
             bootoast({
@@ -118,21 +132,21 @@
                 bootoast({
                     message: result.msg,
                     type: 'success',
-                    position:'top',
-                    timeout:2
+                    position: 'top',
+                    timeout: 2
                 });
                 // 成功之后可以跳转
-                setTimeout(()=>{
+                setTimeout(() => {
                     window.location.href = "musictype-list.html"
-                },1000)
+                }, 1000)
             },
             error: function (error) {// 响应失败就会自动执行该方法，error中封装的是错误信息
                 // 提示
                 bootoast({
                     message: '服务器请求错误！',
                     type: 'danger',
-                    position:'top',
-                    timeout:2
+                    position: 'top',
+                    timeout: 2
                 });
 
             }

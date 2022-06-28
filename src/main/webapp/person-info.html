@@ -16,10 +16,20 @@
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="static/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="./static/bootstrap-3.4.1/js/bootoast.js"></script>
+
+    <link rel="stylesheet" href="static/css/dmaku.css"/>
+    <script type='text/javascript' src='static/js/jquery-1.11.1.min.js'></script>
+    <script type='text/javascript' src='static/js/jquery.particleground.min.js'></script>
+    <script type='text/javascript' src='static/js/dmaku.js'></script>
     <style>
         * {
             margin: 0;
             padding: 0;
+        }
+
+        main {
+            position: relative;
+            top: -300px;
         }
 
         main .myform {
@@ -46,18 +56,18 @@
         }
     </style>
     <script>
-        $(function (){
-           initData();
+        $(function () {
+            initData();
         })
 
         /**
          * 初始化数据
          */
-        function initData(){
+        function initData() {
             // 获取登录保存的用户信息
             let user = sessionStorage.getItem("user");
-            console.log("-------------个人信息：",user)
-            if(user){
+            console.log("-------------个人信息：", user)
+            if (user) {
                 user = JSON.parse(user);
                 $("#userId").val(user.userId)
                 $("#phone").val(user.phone)
@@ -70,56 +80,62 @@
     </script>
 </head>
 
-<body>
-<div class="container-fluid my-container">
-    <main>
-        <!-- 路径导航 -->
-        <ol class="breadcrumb" style="margin-top:5px;">
-            <li><a href="#">主页</a></li>
-            <li><a href="#">个人中心</a></li>
-            <li class="active">个人信息</li>
-        </ol>
-        <!-- 表单 -->
-        <div class="myform">
-            <form id="myForm" action="/musicApp/user/updateUsers" method="post">
-                <div class="form-group">
-                    <label for="userId">编<span style="color:transparent;user-select: none;">隐藏</span>号：</label>
-                    <input type="text" class="form-control" name="userId" id="userId" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="phone">电<span style="color:transparent;user-select: none;">隐藏</span>话：</label>
-                    <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话">
-                </div>
-                <div class="form-group">
-                    <label for="nickName">昵<span style="color:transparent;user-select: none;">隐藏</span>称：</label>
-                    <input type="text" class="form-control" name="nickname" id="nickname" placeholder="请输入昵称">
-                </div>
-                <div class="form-group">
-                    <label for="nickname">性<span style="color:transparent;user-select: none;">隐藏</span>别：</label>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="sex" id="optionsRadios1" value="男">
-                            男
-                        </label>
-                        &nbsp;&nbsp;
-                        <label>
-                            <input type="radio" name="sex" id="optionsRadios2" value="女">
-                            女
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="address">家庭住址：</label>
-                    <textarea name="address" id="address" class="form-control" cols="30" rows="5"></textarea>
-                </div>
-                <button type="button" class="btn btn-success" onclick="save()">保存</button>
-            </form>
+<body style="background: #ffffff">
 
-        </div>
-    </main>
-    <!-- 尾部 -->
-    <div class="footer">技术支持:睡不醒的前端</div>
+<div id="particles">
+    <div class="intro">
+        <main>
+            <!-- 路径导航 -->
+            <ol class="breadcrumb" style="margin-top:5px;">
+                <li><a href="#">主页</a></li>
+                <li><a href="#">个人中心</a></li>
+                <li class="active">个人信息</li>
+            </ol>
+            <!-- 表单 -->
+            <div class="myform">
+                <form id="myForm" action="/musicApp/user/updateUsers" method="post">
+                    <div class="form-group">
+                        <label for="userId">编<span style="color:transparent;user-select: none;">隐藏</span>号：</label>
+                        <input type="text" class="form-control" name="userId" id="userId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">电<span style="color:transparent;user-select: none;">隐藏</span>话：</label>
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入电话">
+                    </div>
+                    <div class="form-group">
+                        <label for="nickName">昵<span
+                                style="color:transparent;user-select: none;">隐藏</span>称：</label>
+                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="请输入昵称">
+                    </div>
+                    <div class="form-group">
+                        <label for="nickname">性<span
+                                style="color:transparent;user-select: none;">隐藏</span>别：</label>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="sex" id="optionsRadios1" value="男">
+                                男
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="sex" id="optionsRadios2" value="女">
+                                女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">家庭住址：</label>
+                        <textarea name="address" id="address" class="form-control" cols="30" rows="5"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="save()">保存</button>
+                </form>
+
+            </div>
+        </main>
+    </div>
 </div>
+<!-- 尾部 -->
+<div class="footer">技术支持:睡不醒的前端</div>
+
 <script>
     // 提交表单的方法
     function save() {
@@ -188,7 +204,7 @@
             success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
                 console.log(result);
                 // 改变主页右上角的登录人名称
-                sessionStorage.setItem("nickname",$("#nickname").val())
+                sessionStorage.setItem("nickname", $("#nickname").val())
                 // 提示
                 bootoast({
                     message: result.msg,
