@@ -216,7 +216,7 @@
                     cache: false,// 不启用缓存
                     dataType: 'json',// 期望后端返回的数据的类型
                     success: function (res) {// success,成功响应后自动执行，res封装后端响应回来的信息
-                        console.log("返回类别列表信息", res)
+                        console.log("返回音乐列表信息", res)
                         if (res.code == 1) {// 数据查询成功
                             // 判断后端是否传过来列表数据
                             if (res.result && res.result.list.length > 0) {// 有数据

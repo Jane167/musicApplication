@@ -121,6 +121,7 @@ public class MusicController {
      */
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public RtnInfo update(Music music) throws Exception {
+        System.out.println("=============进入音乐修改后台==========" + music);
         RtnInfo rtnInfo = new RtnInfo();
         // 非空校验
         if (StringUtils.isNullOrEmpty(music.getMusicName())) {
