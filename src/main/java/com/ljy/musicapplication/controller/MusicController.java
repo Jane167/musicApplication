@@ -133,9 +133,6 @@ public class MusicController {
         } else if (StringUtils.isNullOrEmpty(music.getSinger())) {
             rtnInfo.setCode(-1);
             rtnInfo.setMsg("歌手不能为空！");
-        } else if (StringUtils.isNullOrEmpty(music.getMusicType().getMusictypeId() + "")) {
-            rtnInfo.setCode(-1);
-            rtnInfo.setMsg("音乐类别不能为空！");
         } else if (StringUtils.isNullOrEmpty(music.getRecordCompany())) {
             rtnInfo.setCode(-1);
             rtnInfo.setMsg("唱片公司不能为空！");

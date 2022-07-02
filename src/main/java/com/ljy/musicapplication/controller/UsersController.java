@@ -1,10 +1,9 @@
 package com.ljy.musicapplication.controller;
 
 
-import com.ljy.musicapplication.bean.MusicType;
+
 import com.ljy.musicapplication.bean.RtnInfo;
 import com.ljy.musicapplication.bean.Users;
-import com.ljy.musicapplication.bean.UsersVo;
 import com.ljy.musicapplication.mapper.UsersMapper;
 import com.ljy.musicapplication.util.CpachaUtil;
 import com.mysql.jdbc.StringUtils;

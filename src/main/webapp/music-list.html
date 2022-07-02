@@ -99,7 +99,7 @@
         // 创建一个全局的keywords，查询用
         var keywords = "''"
         // 声明一个变量，存放上传成功后的图片的远程路径
-        let coursePic = '';
+        var coursePic = './static/img/default-pic.png';
         /**
          * dom加载完成之后，自动执行
          */
@@ -143,7 +143,7 @@
                     console.log("response", response)
                     coursePic = "/musicApp/imgs/musicPic/" + response.result;// 大家这里只需要改称自己的根路径
                     console.log("获取上传的图片：" + coursePic)
-                    $('#viewImg').attr('src', coursePic);
+                    $('#musicPic').attr('src', coursePic);
                 }
             });
         }
@@ -161,11 +161,11 @@
                     console.log("请求音乐类别数据：", res.result);
                     if (res.code == 1 && res.result) {
                         // 动态生成下拉列表
-                        $("#musictypeId").append($(`
+                        $("#musictypeName").append($(`
                               <option className = "disabled" readonly value="">请选择音乐类别</option>
                         `))
                         for (let val of res.result) {
-                            $("#musictypeId").append($(`
+                            $("#musictypeName").append($(`
                                 <option value="${val.musictypeId}">${val.musictypeName}</option>
                             `))
                         }
@@ -236,11 +236,11 @@
 
                                         <td class="text">${music.depict}</td>
                                         <td class="text">${music.price}</td>
-                                        <td class="text"><span class="${music.status ? "label-primary label" : "label-default label"}">${music.status ? "已上架" : "未上架"}</span></td>
+                                        <td class="text"><span class="${music.status ? "label-primary label" : "label-default label"}">${music.status ? "Stocked" : "Moved"}</span></td>
                                         <td class="text">
                                            <button type="button" class="btn btn-sm btn-info"
-                                                    data-toggle="modal" data-target="#exampleModal" data-music-id=${music.musicId}
-                                                    data-music-name=${music.musicName} data-music-musictypeid=${music.musicType.musictypeId}
+                                                    data-toggle="modal" data-target="#exampleModal" data-music-id=${music.musicId} data-music-musictypename=${music.musicType.musictypeName}
+                                                    data-music-name=${music.musicName} data-music-musictypeid=${music.musicType.musictypeId} data-music-pic=${music.musicPic}
                                                     data-singer=${music.singer} data-record-company=${music.recordCompany}
                                                     data-release-date=${music.releaseDate} data-depict=${music.depict} data-price=${music.price}>Edit</button>
                                             <button type="button" class="${music.status ? "btn btn-sm btn-success" : "btn btn-sm btn-warning"}" data-toggle="modal" data-music-id=${music.musicId} data-status=${music.status} data-target="#exampleModal3">${music.status ? "Off" : "On"}</button>
@@ -428,7 +428,6 @@
                 let musicName = $("#musicName").val();
                 let musicPic = coursePic;
                 let singer = $("#singer").val();
-                let musictypeId = $("#musictypeId option:selected").val()
                 let recordCompany = $("#recordCompany").val();
                 let releaseDate = $("#releaseDate").val();
                 let price = $("#price").val();
@@ -439,15 +438,6 @@
                 if (!musicName || musicName === '') {
                     bootoast({
                         message: '音乐名称不能为空！',
-                        type: 'danger',
-                        position: 'top',
-                        timeout: 2
-                    });
-                    return false;
-                }
-                if (!musictypeId || musictypeId === '') {
-                    bootoast({
-                        message: '音乐类别不能为空！',
                         type: 'danger',
                         position: 'top',
                         timeout: 2
@@ -513,7 +503,7 @@
                     type: 'post',// 提交方式 post
                     url: $("#myForm").attr("action"),// /musicApp/music/update
                     cache: false,// 不启用缓存
-                    data: `musicId=${musicId}&musicName=${musicName}&musicPic=${musicPic}&singer=${singer}&musicType.musictypeId=${musictypeId}
+                    data: `musicId=${musicId}&musicName=${musicName}&musicPic=${musicPic}&singer=${singer}
                             &recordCompany=${recordCompany}&depict=${depict}&price=${price}&releaseDate=${releaseDate}`,
                     dataType: 'json',// 期望服务器响应的数据类型 json
                     success: function (result) {// 响应成功就会自动执行该方法，result中封装的是响应的结果
@@ -558,19 +548,23 @@
                     var musicName = button.data('music-name');
                     var musicPic = button.data('music-pic');
                     coursePic = musicPic;  // 如果这里不处理，图片会丢失
-                    var musictypeId = button.data('music-musictypeid');
+                    var musictypeId = button.data('music-musictypeid')
+                    var musictypeName = button.data('music-musictypename');
                     var singer = button.data('singer');
                     var recordCompany = button.data('record-company');
                     var releaseDate = button.data('release-date');
                     var depict = button.data('depict');
                     var price = button.data('price');
-
+                    console.log('========', musictypeName)
+                    console.log('========company', recordCompany)
+                    console.log('========depict', depict)
                     var modal = $(this)
+                    console.log('musicPic', musicPic)
                     // 绑定数据  将编辑按钮上携带的数据绑定到弹出框
                     modal.find('.modal-body #musicId').val(musicId)
                     modal.find('.modal-body #musicName').val(musicName)
-                    modal.find('.modal-body #musictPic').val(musicPic)
-                    modal.find('.modal-body #musictypePic').val(musictypeId)
+                    modal.find('.modal-body #musicPic').attr("src", musicPic)
+                    modal.find('.modal-body #musictypeName').val(musictypeName)
                     modal.find('.modal-body #singer').val(singer)
                     modal.find('.modal-body #recordCompany').val(recordCompany)
                     modal.find('.modal-body #releaseDate').val(releaseDate)
@@ -679,7 +673,7 @@
                 </div>
             </div>
             <!-- 尾部 -->
-            <div class="footer">Copyright &copy; 2022 LiJiayin</div>
+            <div class="footer">Copyright &copy; 计科B1901班 第一组</div>
         </main>
     </div>
 </div>
@@ -707,24 +701,29 @@
                         <input type="text" class="form-control" name="musicName" id="musicName">
                     </div>
                     <div class="form-group">
-                        <label for="musicPic">Picture：</label>
+                        <label>Picture：</label>
                         <div>
                             <img src="./static/img/default-pic.png" class="img-thumbnail" alt=""
-                                 style="height: 120px;position: relative;left: 0px;" id="viewImg"/>
+                                 style="height: 120px;position: relative;left: 0px;" id="musicPic"/>
                             <button type="button" class="btn btn-primary btn-xs" id="addLabProdPic"
-                                    style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;Choose picture
+                                    style="margin-left: 40px;"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;Choose
+                                picture
                             </button>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="singer">Singer：</label>
-                        <input type="text" class="form-control" name="singer" id="singer" placeholder="Please enter singer：">
+                        <input type="text" class="form-control" name="singer" id="singer"
+                               placeholder="Please enter singer：">
                     </div>
                     <div class="form-group">
-                        <label for="musictypeId">Music type：</label>
-                        <select class="form-control" id="musictypeId">
+                        <!--                        <label for="musictypeName">Music type：</label>-->
+                        <!--                        <select class="form-control" id="musictypeName" name="musictypeName">-->
 
-                        </select>
+                        <!--                        </select>-->
+
+                        <label for="musictypeName">Music type：</label>
+                        <input type="text" class="form-control" name="musictypeName" id="musictypeName" readonly>
                     </div>
                     <div class="form-group">
                         <label for="recordCompany">Record company：</label>
@@ -734,7 +733,8 @@
                     <div class="form-group">
                         <label for="releaseDate">Release date：</label>
                         <div class="input-group date" id="datetimepicker1">
-                            <input type="text" class="form-control" id="releaseDate" placeholder="Please choose release date：">
+                            <input type="text" class="form-control" id="releaseDate"
+                                   placeholder="Please choose release date：">
                             <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
